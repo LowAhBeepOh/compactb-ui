@@ -12,22 +12,21 @@
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <button class="menu-toggle" id="menuToggle">
-        <span class="material-icons">menu</span>
-    </button>
-
     <div class="app-container">
         <nav class="sidebar" id="sidebar">
+            <!-- Moved collapse sidebar button to the top-right -->
+            <button class="collapse-sidebar-button" id="collapseSidebarButton">
+                <span class="material-icons">chevron_left</span>
+            </button>
             <h1 class="logo">CompactB</h1>
             <div class="sidebar-divider"></div>
             <div class="sidebar-header">
                 <h2 class="sidebar-title">Chats</h2>
                 <button class="new-chat-button">
                     <span class="material-icons">add</span>
-                    New
+                    <span class="new-chat-text">New</span>
                 </button>
             </div>
-
             <div class="profile-viewer">
                 <div class="profile-content">
                     <div class="profile-avatar">LB</div>

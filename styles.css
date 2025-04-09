@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-:root {
+:root { 
     --radius-sm: 10px;
     --radius-md: 20px;
     --radius-lg: 40px;
@@ -60,7 +60,7 @@ body {
     left: 0;
     top: 0;
     z-index: 10;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
 .logo {
@@ -198,7 +198,7 @@ body {
 
 .welcome-subheading {
     font-size: var(--font-size-md);
-    color: var(--color-text-primary);
+    color: var (--color-text-primary);
 }
 
 /* Chat input area */
@@ -320,16 +320,67 @@ body {
     opacity: 0.9;
 }
 
+/* Updated collapse button styling */
+.collapse-sidebar-button {
+    position: fixed; /* Change from absolute to fixed */
+    top: 10px;
+    right: 10px;
+    z-index: 30;
+    background-color: var(--color-accent-orange-dark);
+    border: none;
+    border-radius: var(--radius-round);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-lighter);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Styles when sidebar is compressed */
+.sidebar.compressed {
+    width: 80px;
+}
+.sidebar.compressed .logo,
+.sidebar.compressed .sidebar-title,
+.sidebar.compressed .new-chat-button span:not(.material-icons) {
+    display: none;
+}
+.sidebar.compressed .profile-settings {
+    display: none;
+}
+
+/* When sidebar is compressed, adjust New chat button and profile viewer */
+.sidebar.compressed .new-chat-button {
+    padding: 5px; 
+    justify-content: center; /* center the '+' icon */
+}
+/* Remove right margin from the plus icon when compressed */
+.sidebar.compressed .new-chat-button .material-icons {
+    margin-right: 0;
+}
+.sidebar.compressed .profile-info {
+    display: none; /* hide user name and handle */
+}
+.sidebar.compressed .profile-viewer {
+    padding: 12px 0; /* reduce vertical padding */
+    justify-content: center; /* center the avatar and settings icon */
+}
+
 /* Responsive styles */
 @media (max-width: 1024px) {
     .sidebar {
         transform: translateX(-100%);
+        width: 80px; /* Start with compressed width on mobile */
     }
 
     .main-content {
         margin-left: 0;
         width: 100%;
         padding: 20px;
+        transition: margin-left 0.3s ease-in-out;
     }
 
     .menu-toggle {
@@ -338,6 +389,11 @@ body {
 
     .sidebar.open {
         transform: translateX(0);
+        width: 300px; /* Full width when open */
+    }
+
+    .sidebar.open + .main-content {
+        margin-left: 300px;
     }
 
     .welcome-heading {
@@ -346,6 +402,24 @@ body {
 
     .welcome-subheading {
         font-size: var(--font-size-sm);
+    }
+
+    /* Adjust collapse button for mobile */
+    .collapse-sidebar-button {
+        transform: rotate(180deg);
+    }
+    
+    .sidebar.open .collapse-sidebar-button {
+        transform: rotate(0);
+    }
+
+    /* Hide text elements when sidebar is not open */
+    .sidebar:not(.open) .logo,
+    .sidebar:not(.open) .sidebar-title,
+    .sidebar:not(.open) .new-chat-button span:not(.material-icons),
+    .sidebar:not(.open) .profile-info,
+    .sidebar:not(.open) .profile-settings {
+        display: none;
     }
 }
 
@@ -383,5 +457,27 @@ body {
     .send-button {
         width: 40px;
         height: 100px;
+    }
+
+    /* Hide the collapse button on phones */
+    .sidebar.open .collapse-sidebar-button {
+        display: none;
+    }
+
+    /* Adjust the menu toggle position and ensure it's visible */
+    .menu-toggle {
+        display: flex; /* should be visible on small screens */
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        left: auto;
+        z-index: 30;
+    }
+}
+
+/* Remove or modify these conflicting rules */
+@media (min-width: 481px) {
+    .sidebar.open .collapse-sidebar-button {
+        display: flex;
     }
 }
