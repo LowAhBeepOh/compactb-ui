@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --radius-sm: 10px;
+    --radius-md: 20px;
+    --radius-lg: 40px;
+}
+
+body {
+    font-family: 'Instrument Serif', serif;
+    background-color: #FFFAE5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background-color: #FFFCF2;
+    box-shadow: 4px 0px 24px 8px rgba(35.41, 39.83, 123.66, 0.25);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo {
+    text-align: center;
+    padding: 36px 0;
+    color: #1F2F2B;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+}
+
+.sidebar-divider {
+    width: 252px;
+    height: 1px;
+    margin: 0 auto;
+    background-color: #ACC777;
+    margin-bottom: 24px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    margin-bottom: 20px;
+}
+
+.sidebar-title {
+    font-size: 24px;
+    color: black;
+}
+
+.new-chat-button {
+    display: flex;
+    align-items: center;
+    background-color: #FFBE64;
+    border-radius: var(--radius-sm);
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+}
+
+.new-chat-button .material-icons {
+    margin-right: 5px;
+}
+
+.profile-viewer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px;
+    background-color: #FFFCF2;
+    border-top: 1px solid #ACC777;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #FFBE64;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1F2F2B;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    color: #172413;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Inter Tight', sans-serif;
+}
+
+.profile-handle {
+    color: #4a553b;
+    font-size: 16px;
+    font-family: 'Instrument Serif', serif;
+    font-weight: 450;
+}
+
+.profile-settings {
+    background: none;
+    border: none;
+    color: #1F2F2B;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+}
+
+.profile-settings:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 300px;
+    padding: 40px;
+    width: calc(100% - 300px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.welcome-message {
+    text-align: center;
+    margin-bottom: 23px;
+}
+
+.welcome-heading {
+    font-size: 64px;
+    color: #1F2F2B;
+    margin-bottom: 20px;
+}
+
+.welcome-subheading {
+    font-size: 32px;
+    color: #1F2F2B;
+}
+
+/* Chat input area */
+.chat-input-container {
+    width: 100%;
+    max-width: 835px;
+    position: relative;
+}
+
+.chat-input-box {
+    width: 100%;
+    height: 160px;
+    background-color: #E8E2C5;
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    position: relative;
+}
+
+.chat-input {
+    width: 100%;
+    height: 22px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    color: #1F2F2B;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+.chat-input::placeholder {
+    color: #1F2F2B;
+}
+
+.chat-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    display: flex;
+    gap: 16px;
+}
+
+.add-files-button {
+    width: 50px;
+    height: 40px;
+    background-color: #9B7E63;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+}
+
+.add-files-button .material-icons {
+    color: #FAFFE8;
+    font-size: 32px;
+}
+
+.style-selector {
+    width: 128px;
+    height: 40px;
+    background-color: #9B7E63;
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    color: #FAFFE8;
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+}
+
+.send-button {
+    position: absolute;
+    width: 50px;
+    height: 128px;
+    background-color: #DA7E28;
+    border-radius: var(--radius-md);
+    right: 16px;
+    top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+}
+
+.send-button .material-icons {
+    color: #F7FFE2;
+    font-size: 32px;
+}
+
+/* Mobile menu toggle */
+.menu-toggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+    background-color: #DA7E28;
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Add this to preserve the hover state visibility */
+.new-chat-button:hover,
+.add-files-button:hover,
+.style-selector:hover,
+.send-button:hover,
+.menu-toggle:hover {
+    opacity: 0.9;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .welcome-heading {
+        font-size: 48px;
+    }
+
+    .welcome-subheading {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-heading {
+        font-size: 36px;
+    }
+
+    .welcome-subheading {
+        font-size: 20px;
+    }
+
+    .chat-input-box {
+        height: 140px;
+    }
+
+    .send-button {
+        height: 108px;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-heading {
+        font-size: 32px;
+    }
+
+    .chat-input {
+        font-size: 18px;
+    }
+
+    .chat-controls {
+        flex-wrap: wrap;
+    }
+
+    .send-button {
+        width: 40px;
+        height: 100px;
+    }
+}
