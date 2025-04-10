@@ -344,6 +344,11 @@ body {
     animation: fadeIn var(--animation-timing) ease-out forwards;
 }
 
+.main-content.chat-active {
+    align-items: stretch;
+    justify-content: space-between;
+}
+
 .welcome-message {
     text-align: center;
     margin-bottom: 23px;
@@ -454,6 +459,38 @@ body {
 .send-button .material-icons {
     color: var(--color-text-lighter);
     font-size: 32px;
+}
+
+/* Chat UI styles */
+.chat-messages {
+    width: 100%;
+    /* Adjust height to fill space above the chat input */
+    height: calc(100vh - 300px);
+    overflow-y: auto;
+    padding: 20px;
+    background-color: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    max-width: 60%;
+    padding: 10px 15px;
+    border-radius: var(--radius-sm);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.message.user {
+    background-color: var(--color-accent-orange);
+    margin-left: auto;
+    color: var(--color-text-primary);
+}
+
+.message.ai {
+    background-color: var(--color-input-bg);
+    margin-right: auto;
+    color: var(--color-text-primary);
 }
 
 /* Mobile menu toggle */

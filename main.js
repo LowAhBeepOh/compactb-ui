@@ -145,4 +145,53 @@ document.addEventListener('DOMContentLoaded', function() {
             setLanguage(option.dataset.lang);
         });
     });
+
+    // Chat functionality
+    const chatInput = document.querySelector('.chat-input');
+    const sendButton = document.querySelector('.send-button');
+    let chatInitialized = false;
+    let chatMessages; // newly created chat messages container
+
+    function initChatUI() {
+        const mainContent = document.querySelector('.main-content');
+        // Remove the current right side content (e.g. welcome message)
+        const welcome = document.querySelector('.welcome-message');
+        if (welcome) welcome.remove();
+        // Change layout for chat view
+        mainContent.classList.add('chat-active');
+        // Create and insert the chat messages container above the chat input container
+        chatMessages = document.createElement('div');
+        chatMessages.classList.add('chat-messages');
+        mainContent.insertBefore(chatMessages, document.querySelector('.chat-input-container'));
+        chatInitialized = true;
+    }
+    
+    function addMessage(text, isUser = false) {
+        const message = document.createElement('div');
+        message.classList.add('message', isUser ? 'user' : 'ai');
+        message.textContent = text;
+        chatMessages.appendChild(message);
+        message.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    function handleMessage(event) {
+        if (event.key && event.key !== 'Enter') return;
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        if (!chatInitialized) {
+            initChatUI();
+        }
+        // Add user message (appears on right)
+        addMessage(text, true);
+        chatInput.value = '';
+
+        // Simulate AI response ("haii :3" on left)
+        setTimeout(() => {
+            addMessage("haii :3", false);
+        }, 500);
+    }
+
+    sendButton.addEventListener('click', handleMessage);
+    chatInput.addEventListener('keypress', handleMessage);
 });
