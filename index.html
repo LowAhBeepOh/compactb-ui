@@ -78,6 +78,7 @@
                 <div class="settings-tabs">
                     <button class="settings-tab active" data-tab="general">General</button>
                     <button class="settings-tab" data-tab="appearance">Appearance</button>
+                    <button class="settings-tab" data-tab="accessibility">Accessibility</button>
                     <button class="settings-tab" data-tab="privacy">Privacy</button>
                 </div>
                 <div class="settings-content">
@@ -121,6 +122,128 @@
                                 <span class="theme-text">Dark</span>
                             </button>
                         </div>
+                        
+                        <div class="theme-colors">
+                            <div class="theme-color-option active" data-theme="light">
+                                <div class="theme-color-preview">
+                                    <div class="theme-color-preview-header"></div>
+                                    <div class="theme-color-preview-content"></div>
+                                </div>
+                                <div class="theme-color-name">Light</div>
+                            </div>
+                            <div class="theme-color-option" data-theme="dark">
+                                <div class="theme-color-preview">
+                                    <div class="theme-color-preview-header"></div>
+                                    <div class="theme-color-preview-content"></div>
+                                </div>
+                                <div class="theme-color-name">Dark</div>
+                            </div>
+                            <div class="theme-color-option" data-theme="blue">
+                                <div class="theme-color-preview">
+                                    <div class="theme-color-preview-header"></div>
+                                    <div class="theme-color-preview-content"></div>
+                                </div>
+                                <div class="theme-color-name">Blue</div>
+                            </div>
+                            <div class="theme-color-option" data-theme="green">
+                                <div class="theme-color-preview">
+                                    <div class="theme-color-preview-header"></div>
+                                    <div class="theme-color-preview-content"></div>
+                                </div>
+                                <div class="theme-color-name">Green</div>
+                            </div>
+                        </div>
+                        
+                        <div class="font-size-section">
+                            <h4>Font Size</h4>
+                            <div class="font-size-controls">
+                                <input type="range" min="80" max="120" value="100" class="font-size-slider" id="fontSizeSlider">
+                                <span class="font-size-value" id="fontSizeValue">100%</span>
+                                <div class="font-size-buttons">
+                                    <button class="font-size-button" id="decreaseFontSize">
+                                        <span class="material-icons">remove</span>
+                                    </button>
+                                    <button class="font-size-button" id="increaseFontSize">
+                                        <span class="material-icons">add</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-style-section">
+                            <h4>Chat Bubble Style</h4>
+                            <div class="chat-style-options">
+                                <div class="chat-style-option active" data-style="default">
+                                    <div class="chat-style-preview">
+                                        <div class="chat-style-preview-bubble"></div>
+                                        <div class="chat-style-preview-bubble"></div>
+                                    </div>
+                                    <span class="chat-style-name">Default</span>
+                                </div>
+                                <div class="chat-style-option" data-style="rounded">
+                                    <div class="chat-style-preview">
+                                        <div class="chat-style-preview-bubble"></div>
+                                        <div class="chat-style-preview-bubble"></div>
+                                    </div>
+                                    <span class="chat-style-name">Rounded</span>
+                                </div>
+                                <div class="chat-style-option" data-style="modern">
+                                    <div class="chat-style-preview">
+                                        <div class="chat-style-preview-bubble"></div>
+                                        <div class="chat-style-preview-bubble"></div>
+                                    </div>
+                                    <span class="chat-style-name">Modern</span>
+                                </div>
+                                <div class="chat-style-option" data-style="minimal">
+                                    <div class="chat-style-preview">
+                                        <div class="chat-style-preview-bubble"></div>
+                                        <div class="chat-style-preview-bubble"></div>
+                                    </div>
+                                    <span class="chat-style-name">Minimal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-panel" data-panel="accessibility">
+                        <h3>Accessibility</h3>
+                        <div class="accessibility-section">
+                            <h4>Display Options</h4>
+                            <div class="accessibility-options">
+                                <div class="accessibility-option">
+                                    <label class="accessibility-switch">
+                                        <input type="checkbox" id="highContrastMode">
+                                        <span class="accessibility-slider"></span>
+                                    </label>
+                                    <span class="accessibility-label">High Contrast Mode</span>
+                                </div>
+                                <div class="accessibility-option">
+                                    <label class="accessibility-switch">
+                                        <input type="checkbox" id="reduceMotion">
+                                        <span class="accessibility-slider"></span>
+                                    </label>
+                                    <span class="accessibility-label">Reduce Motion</span>
+                                </div>
+                                <div class="accessibility-option">
+                                    <label class="accessibility-switch">
+                                        <input type="checkbox" id="screenReaderOptimization">
+                                        <span class="accessibility-slider"></span>
+                                    </label>
+                                    <span class="accessibility-label">Screen Reader Optimization</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accessibility-section">
+                            <h4>Reading Time</h4>
+                            <div class="accessibility-options">
+                                <div class="accessibility-option">
+                                    <label class="accessibility-switch">
+                                        <input type="checkbox" id="showReadingTime">
+                                        <span class="accessibility-slider"></span>
+                                    </label>
+                                    <span class="accessibility-label">Show Estimated Reading Time</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="settings-panel" data-panel="privacy">
                         <h3>Privacy</h3>
@@ -128,7 +251,6 @@
                             <h4>Data Collection</h4>
                             <p>Chat history is stored locally on your device. Only data sent to our servers will be saved and train our models.</p>
                             <p>Our smaller models will be ran on your device, while our bigger models will be ran on our servers. If you have a CompactB Module Block connected, the models will be processed through that.</p>
-
                         </div>
                     </div>
                 </div>
