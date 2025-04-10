@@ -24,4 +24,31 @@ document.addEventListener('DOMContentLoaded', function() {
             collapseButton.querySelector('.material-icons').textContent = 'chevron_right';
         }
     });
+
+    // Settings functionality
+    const settingsButton = document.querySelector('.profile-settings');
+    const settingsContainer = document.getElementById('settingsContainer');
+    const closeSettings = document.getElementById('closeSettings');
+    const settingsTabs = document.querySelectorAll('.settings-tab');
+    
+    settingsButton.addEventListener('click', () => {
+        settingsContainer.classList.add('active');
+    });
+    
+    closeSettings.addEventListener('click', () => {
+        settingsContainer.classList.remove('active');
+    });
+    
+    settingsTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs and panels
+            settingsTabs.forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.settings-panel').forEach(p => p.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding panel
+            tab.classList.add('active');
+            const panelId = tab.dataset.tab;
+            document.querySelector(`.settings-panel[data-panel="${panelId}"]`).classList.add('active');
+        });
+    });
 });

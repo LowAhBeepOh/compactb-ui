@@ -193,6 +193,118 @@ body {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+/* Settings Container */
+.settings-container {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    background-color: var(--color-sidebar);
+    border-radius: var(--radius-md);
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.settings-container.active {
+    display: flex;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+/* Updated tabs styling for vertical layout */
+.settings-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    border-right: 1px solid var(--color-divider);
+    border-bottom: none;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.settings-tab {
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+.settings-tab.active {
+    background-color: var(--color-accent-orange);
+    color: var(--color-text-primary);
+}
+
+/* Updated content layout */
+.settings-content {
+    display: flex;
+    flex: 1;
+}
+
+.settings-panel {
+    flex: 1;
+    padding: 24px;
+}
+
+/* Add flex layout to main settings area */
+.settings-main-area {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.settings-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.settings-panel {
+    display: none;
+}
+
+.settings-panel.active {
+    display: block;
+}
+
+.close-settings {
+    background-color: var(--color-accent-orange-dark);
+    border: none;
+    border-radius: var(--radius-round);
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-lighter);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: opacity 0.2s ease;
+}
+
+.close-settings:hover {
+    opacity: 0.9;
+}
+
+.close-settings .material-icons {
+    font-size: 24px;
+}
+
 /* Main content styles */
 .main-content {
     margin-left: 300px;
