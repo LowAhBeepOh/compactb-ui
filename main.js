@@ -74,4 +74,75 @@ document.addEventListener('DOMContentLoaded', function() {
             setTheme(option.dataset.theme);
         });
     });
+
+    // Language switching
+    const languageOptions = document.querySelectorAll('.language-option');
+    
+    function updateContent(lang) {
+        try {
+            // Update welcome message
+            document.querySelector('.welcome-heading').textContent =
+                `${translations[lang].welcome}, Loa`;
+            document.querySelector('.welcome-subheading').textContent =
+                translations[lang].help;
+            
+            // Update settings title
+            document.querySelector('.settings-title').textContent =
+                translations[lang].settings;
+            
+            // Update tab buttons
+            document.querySelector('[data-tab="general"]').textContent =
+                translations[lang].general;
+            document.querySelector('[data-tab="appearance"]').textContent =
+                translations[lang].appearance;
+            document.querySelector('[data-tab="privacy"]').textContent =
+                translations[lang].privacy;
+            
+            // Update sidebar section titles
+            document.querySelector('.sidebar-title').textContent =
+                translations[lang].chats;
+            document.querySelector('.new-chat-text').textContent =
+                translations[lang].new;
+            
+            // Update theme option texts (preserve icons)
+            const lightThemeBtn = document.querySelector('[data-theme="light"]');
+            const darkThemeBtn = document.querySelector('[data-theme="dark"]');
+            lightThemeBtn.querySelector('.theme-text').textContent = translations[lang].light;
+            darkThemeBtn.querySelector('.theme-text').textContent = translations[lang].dark;
+            
+            // Update privacy text
+            const privacyTexts = document.querySelectorAll('.privacy-section p');
+            privacyTexts[0].textContent = translations[lang].privacyText1;
+            privacyTexts[1].textContent = translations[lang].privacyText2;
+            
+            // Update chat input placeholder
+            document.querySelector('.chat-input').placeholder =
+                translations[lang].inputPlaceholder;
+                
+            // Update language section title
+            document.querySelector('.language-section h4').textContent =
+                translations[lang].systemLanguage;
+        } catch (error) {
+            console.error('Error updating content:', error);
+        }
+    }
+
+    function setLanguage(lang) {
+        localStorage.setItem('language', lang);
+        document.documentElement.setAttribute('lang', lang);
+        languageOptions.forEach(option => {
+            option.classList.toggle('active', option.dataset.lang === lang);
+        });
+        updateContent(lang);
+    }
+
+    // Initialize language from localStorage or default to English
+    const savedLanguage = localStorage.getItem('language') || 'en';
+    setLanguage(savedLanguage);
+
+    languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            setLanguage(option.dataset.lang);
+        });
+    });
 });

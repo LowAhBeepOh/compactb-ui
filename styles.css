@@ -770,3 +770,45 @@ h3 {
 .clear-data-button:hover {
     opacity: 0.9;
 }
+
+.language-section {
+    margin: 24px 0;
+}
+
+.language-section h4 {
+    color: var(--color-text-primary);
+    margin-bottom: 16px;
+    font-family: var(--font-secondary);
+}
+
+.language-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--color-input-bg);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-tertiary);
+    font-family: var(--font-primary);
+    font-size: var(--font-size-xxs);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.language-option:hover {
+    background: var(--color-accent-brown);
+    color: var(--color-text-light);
+}
+
+.language-option.active {
+    background: var(--color-accent-orange);
+    color: var(--color-text-primary);
+}

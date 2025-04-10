@@ -83,18 +83,42 @@
                 <div class="settings-content">
                     <div class="settings-panel active" data-panel="general">
                         <h3>General</h3>
-                        <!-- Add general settings content here -->
+                        <div class="language-section">
+                            <h4>System Language</h4>
+                            <div class="language-options">
+                                <button class="language-option active" data-lang="en">
+                                    <span class="material-icons">translate</span>
+                                    English
+                                </button>
+                                <button class="language-option" data-lang="es">
+                                    <span class="material-icons">translate</span>
+                                    Español
+                                </button>
+                                <button class="language-option" data-lang="no">
+                                    <span class="material-icons">translate</span>
+                                    Norsk
+                                </button>
+                                <button class="language-option" data-lang="sv">
+                                    <span class="material-icons">translate</span>
+                                    Svenska
+                                </button>
+                                <button class="language-option" data-lang="zh">
+                                    <span class="material-icons">translate</span>
+                                    中文
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="settings-panel" data-panel="appearance">
                         <h3>Appearance</h3>
                         <div class="theme-switch">
                             <button class="theme-option active" data-theme="light">
                                 <span class="material-icons">light_mode</span>
-                                Light
+                                <span class="theme-text">Light</span>
                             </button>
                             <button class="theme-option" data-theme="dark">
                                 <span class="material-icons">dark_mode</span>
-                                Dark
+                                <span class="theme-text">Dark</span>
                             </button>
                         </div>
                     </div>
@@ -112,6 +136,7 @@
         </div>
     </div>
 
+    <script src="translations.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
