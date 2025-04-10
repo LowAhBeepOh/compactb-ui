@@ -3,6 +3,61 @@ document.addEventListener('DOMContentLoaded', function() {
     const collapseButton = document.getElementById('collapseSidebarButton');
     const body = document.body;
     
+    // Sample chat data for each chat item
+    const chatData = {
+        'Laufey vs. Sabrina *': [
+            { text: "Who is better, Laufey or Sabrina Carpenter?", isUser: true },
+            { text: "That’s subjective! Laufey leans into a classic, jazzy sound. Sabrina Carpenter has a more pop-focused style. It depends on your preference.", isUser: false },
+            { text: "just choose one", isUser: true },
+            { text: "Laufey", isUser: false },
+            { text: "so real", isUser: true },
+            { text: "Yeah she's just better, not gonna lie.", isUser: false }
+        ],
+        'Travel Planning': [
+            { text: "I'm planning a trip to Japan next spring. Any recommendations?", isUser: true },
+            { text: "Japan in spring is beautiful with cherry blossoms! When exactly are you planning to go?", isUser: false },
+            { text: "Thinking about late March to early April for the cherry blossoms.", isUser: true },
+            { text: "Perfect timing! I'd recommend starting in Tokyo, then visiting Kyoto and Osaka. Don't miss Arashiyama Bamboo Grove and Fushimi Inari Shrine in Kyoto.", isUser: false },
+            { text: "How many days would you recommend for each city?", isUser: true },
+            { text: "I'd suggest 4-5 days in Tokyo, 3-4 in Kyoto, and 2 in Osaka. Consider a day trip to Nara from Kyoto to see the friendly deer!", isUser: false }
+        ],
+        'Recipe Ideas': [
+            { text: "I need a quick dinner recipe that's vegetarian.", isUser: true },
+            { text: "How about a Mediterranean chickpea salad? It's nutritious and takes only 15 minutes to prepare.", isUser: false },
+            { text: "Sounds good! What ingredients do I need?", isUser: true },
+            { text: "You'll need: 1 can chickpeas, cucumber, cherry tomatoes, red onion, feta cheese, olive oil, lemon juice, garlic, salt, pepper, and fresh herbs like parsley or mint.", isUser: false },
+            { text: "Do you have any other quick vegetarian recipes?", isUser: true },
+            { text: "Definitely! Try a spinach and mushroom quesadilla, vegetable stir-fry with tofu, or a hearty lentil soup. All take under 30 minutes!", isUser: false }
+        ],
+        'Coding Help': [
+            { text: "I'm stuck on a JavaScript problem. How do I filter an array of objects based on a property value?", isUser: true },
+            { text: "You can use the filter() method. Here's an example:", isUser: false },
+            { text: "const filteredArray = myArray.filter(item => item.property === 'value');", isUser: false },
+            { text: "Thanks! And what if I want to filter based on multiple conditions?", isUser: true },
+            { text: "You can combine conditions with logical operators:", isUser: false },
+            { text: "const filteredArray = myArray.filter(item => item.property1 === 'value1' && item.property2 > 10);", isUser: false }
+        ],
+        'Book Recommendations': [
+            { text: "Can you recommend some science fiction books?", isUser: true },
+            { text: "Absolutely! Some classics include 'Dune' by Frank Herbert, 'Neuromancer' by William Gibson, and 'The Three-Body Problem' by Liu Cixin.", isUser: false },
+            { text: "I've read Dune and loved it. Anything similar?", isUser: true },
+            { text: "If you enjoyed Dune, you might like 'Hyperion' by Dan Simmons, 'The Left Hand of Darkness' by Ursula K. Le Guin, or 'Children of Time' by Adrian Tchaikovsky.", isUser: false },
+            { text: "What about something more recent?", isUser: true },
+            { text: "For recent sci-fi, check out 'Project Hail Mary' by Andy Weir, 'The Ministry for the Future' by Kim Stanley Robinson, or 'A Memory Called Empire' by Arkady Martine.", isUser: false }
+        ]
+    };
+    
+    // Get all chat items
+    const chatItems = document.querySelectorAll('.chat-item');
+    
+    // Add click event listeners to chat items
+    chatItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const chatTitle = item.querySelector('.chat-title').textContent;
+            loadChat(chatTitle);
+        });
+    });
+    
     // Initialize chat bubble style from localStorage or default
     const savedBubbleStyle = localStorage.getItem('bubbleStyle') || 'default';
     body.setAttribute('data-bubble-style', savedBubbleStyle);
@@ -304,6 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const styleSelector = document.querySelector('.style-selector');
     let chatInitialized = false;
     let chatMessages; // newly created chat messages container
+    let currentChat = null; // Track the currently selected chat
     
     // Update style selector to show current bubble style
     function updateStyleSelector() {
@@ -344,6 +400,44 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.classList.add('chat-messages');
         mainContent.insertBefore(chatMessages, document.querySelector('.chat-input-container'));
         chatInitialized = true;
+        
+        // Update chat input placeholder to match the active chat context
+        if (currentChat) {
+            const placeholders = {
+                'Project Brainstorming': 'Continue your project brainstorming...',
+                'Travel Planning': 'Ask more about your travel plans...',
+                'Recipe Ideas': 'Ask for more recipe suggestions...',
+                'Coding Help': 'Ask another coding question...',
+                'Book Recommendations': 'Ask for more book recommendations...'
+            };
+            chatInput.placeholder = placeholders[currentChat] || 'Type your message here...';
+        }
+    }
+    
+    // Function to load a specific chat conversation
+    function loadChat(chatTitle) {
+        if (!chatInitialized) {
+            initChatUI();
+        }
+        
+        // Clear existing messages
+        chatMessages.innerHTML = '';
+        
+        // Update current chat
+        currentChat = chatTitle;
+        
+        // Highlight the selected chat item
+        chatItems.forEach(item => {
+            const itemTitle = item.querySelector('.chat-title').textContent;
+            item.classList.toggle('active', itemTitle === chatTitle);
+        });
+        
+        // Load chat messages for the selected chat
+        if (chatData[chatTitle]) {
+            chatData[chatTitle].forEach(message => {
+                addMessage(message.text, message.isUser);
+            });
+        }
     }
     
     function addMessage(text, isUser = false) {
@@ -398,13 +492,36 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!chatInitialized) {
             initChatUI();
         }
+        
+        // If no chat is selected, use the first one
+        if (!currentChat) {
+            currentChat = document.querySelector('.chat-item .chat-title').textContent;
+            // Highlight the first chat item
+            document.querySelector('.chat-item').classList.add('active');
+        }
+        
         // Add user message (appears on right)
         addMessage(text, true);
         chatInput.value = '';
 
-        // Simulate AI response ("haii :3" on left)
+        // Simulate AI response based on context
         setTimeout(() => {
-            addMessage("haii :3", false);
+            let response = "I'm here to help! What would you like to know?";
+            
+            // Contextual responses based on current chat
+            if (currentChat === 'Project Brainstorming') {
+                response = "That's a great idea for your project! Would you like to explore it further?";
+            } else if (currentChat === 'Travel Planning') {
+                response = "I can help with your travel plans. Have you considered transportation options?";
+            } else if (currentChat === 'Recipe Ideas') {
+                response = "That sounds delicious! Would you like more recipe suggestions?";
+            } else if (currentChat === 'Coding Help') {
+                response = "I understand your coding question. Have you tried debugging with console.log?";
+            } else if (currentChat === 'Book Recommendations') {
+                response = "Based on your reading preferences, you might also enjoy 'The Expanse' series.";
+            }
+            
+            addMessage(response, false);
         }, 500);
     }
 

@@ -167,7 +167,7 @@ body {
 
 .sidebar-title {
     font-size: 24px;
-    color: black;
+    color: var(--color-text-primary);
 }
 
 .new-chat-button {
@@ -185,6 +185,52 @@ body {
 
 .new-chat-button .material-icons {
     margin-right: 5px;
+}
+
+.chat-list {
+    padding: 0 24px;
+    margin-bottom: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
+}
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: var(--color-text-secondary);
+}
+
+.chat-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.chat-item.active {
+    background-color: var(--color-accent-orange);
+    color: var(--color-text-primary);
+}
+
+.chat-item.active .material-icons {
+    color: var(--color-text-primary);
+}
+
+.chat-item .material-icons {
+    margin-right: 12px;
+    font-size: 20px;
+    color: var(--color-text-tertiary);
+}
+
+.chat-title {
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-xxs);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .profile-viewer {
@@ -521,6 +567,7 @@ body {
     position: relative;
     margin-bottom: 8px;
     line-height: 1.4;
+    font-family: var(--font-secondary);
 }
 
 .message.user {
@@ -640,6 +687,20 @@ body {
 .sidebar.compressed .profile-viewer {
     padding: 12px 0; /* reduce vertical padding */
     justify-content: center; /* center the avatar and settings icon */
+}
+
+/* Hide chat titles and adjust icons when sidebar is compressed */
+.sidebar.compressed .chat-title {
+    display: none;
+}
+
+.sidebar.compressed .chat-item {
+    justify-content: center;
+    padding: 12px 8px;
+}
+
+.sidebar.compressed .chat-item .material-icons {
+    margin-right: 0;
 }
 
 /* Responsive styles */
@@ -894,6 +955,10 @@ body {
 }
 
 /* Dark theme specific overrides */
+[data-theme="dark"] .chat-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 [data-theme="dark"] .sidebar-title {
     color: var(--color-text-primary);
 }
