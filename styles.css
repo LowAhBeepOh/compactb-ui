@@ -10,19 +10,6 @@
     --radius-lg: 40px;
     --radius-round: 50%;
     --radius-button: 12px;
-
-    --color-background: #FFFAE5;
-    --color-sidebar: #FFFCF2;
-    --color-text-primary: #1F2F2B;
-    --color-text-secondary: #172413;
-    --color-text-tertiary: #4a553b;
-    --color-divider: #ACC777;
-    --color-accent-orange: #FFBE64;
-    --color-accent-brown: #9B7E63;
-    --color-accent-orange-dark: #DA7E28;
-    --color-input-bg: #E8E2C5;
-    --color-text-light: #FAFFE8;
-    --color-text-lighter: #F7FFE2;
     
     --font-primary: 'Instrument Serif', serif;
     --font-secondary: 'Inter Tight', sans-serif;
@@ -39,6 +26,38 @@
     --animation-timing: 0.6s;
     --animation-delay-short: 0.2s;
     --animation-delay-medium: 0.4s;
+}
+
+:root {
+    /* Theme colors - Light (default) */
+    --color-background: #FFFAE5;
+    --color-sidebar: #FFFCF2;
+    --color-text-primary: #1F2F2B;
+    --color-text-secondary: #172413;
+    --color-text-tertiary: #4a553b;
+    --color-divider: #ACC777;
+    --color-accent-orange: #FFBE64;
+    --color-accent-brown: #9B7E63;
+    --color-accent-orange-dark: #DA7E28;
+    --color-input-bg: #E8E2C5;
+    --color-text-light: #FAFFE8;
+    --color-text-lighter: #F7FFE2;
+}
+
+[data-theme="dark"] {
+    --color-background: #1A1810;
+    --color-sidebar: #252218;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #E8E4D6;
+    --color-text-tertiary: #C5C0B4;
+    --color-divider: #4D5D33;
+    --color-accent-orange: #d55e0e;
+    --color-accent-brown: #9B7E63;
+    --color-accent-orange-dark: #E67E1B;
+    --color-input-bg: #2F2B20;
+    --color-text-light: #FFFFFF;
+    --color-text-lighter: #FFFFFF;
+    --shadow-sidebar: 4px 0px 24px 8px rgba(0, 0, 0, 0.4);
 }
 
 @keyframes fadeIn {
@@ -123,6 +142,7 @@ body {
     border: none;
     font-family: var(--font-primary);
     font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
 }
 
 .new-chat-button .material-icons {
@@ -206,6 +226,7 @@ body {
     display: none;
     flex-direction: column;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--color-divider);
 }
 
 .settings-container.active {
@@ -334,7 +355,7 @@ body {
 
 .welcome-subheading {
     font-size: var(--font-size-md);
-    color: var (--color-text-primary);
+    color: var(--color-text-primary);
 }
 
 /* Chat input area */
@@ -447,6 +468,10 @@ body {
     cursor: pointer;
     align-items: center;
     justify-content: center;
+}
+
+.menu-toggle .material-icons {
+    color: var(--color-text-lighter);
 }
 
 /* Add this to preserve the hover state visibility */
@@ -618,4 +643,81 @@ body {
     .sidebar.open .collapse-sidebar-button {
         display: flex;
     }
+}
+
+/* Theme switch styles */
+.theme-switch {
+    display: flex;
+    gap: 8px;
+    padding: 4px;
+    background: var(--color-input-bg);
+    border-radius: var(--radius-sm);
+    margin: 16px 0;
+}
+
+.theme-option {
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-tertiary);
+    font-family: var(--font-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.theme-option.active {
+    background: var(--color-accent-orange);
+    color: var(--color-text-primary);
+}
+
+/* Dark theme specific overrides */
+[data-theme="dark"] .sidebar-title {
+    color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .settings-tabs {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .profile-settings:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .theme-option {
+    color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .theme-option.active {
+    background: var(--color-accent-orange);
+    color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .settings-tab.active {
+    background-color: var(--color-accent-orange);
+    color: var(--color-text-primary);
+}
+
+.settings-title {
+    color: var(--color-text-primary);
+}
+
+.sidebar-header h2 {
+    color: var(--color-text-primary);
+}
+
+h3 {
+    color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .settings-container {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .chat-input::placeholder {
+    color: var(--color-text-tertiary);
 }

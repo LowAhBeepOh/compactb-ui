@@ -51,4 +51,27 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector(`.settings-panel[data-panel="${panelId}"]`).classList.add('active');
         });
     });
+
+    // Theme switching
+    const themeOptions = document.querySelectorAll('.theme-option');
+    const root = document.documentElement;
+
+    function setTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        themeOptions.forEach(option => {
+            option.classList.toggle('active', option.dataset.theme === theme);
+        });
+    }
+
+    // Initialize theme from localStorage or default to light
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+
+    themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            setTheme(option.dataset.theme);
+        });
+    });
 });
