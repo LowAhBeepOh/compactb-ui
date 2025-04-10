@@ -35,6 +35,26 @@
     --font-size-xxs: 16px;
 
     --shadow-sidebar: 4px 0px 24px 8px rgba(35.41, 39.83, 123.66, 0.25);
+
+    --animation-timing: 0.6s;
+    --animation-delay-short: 0.2s;
+    --animation-delay-medium: 0.4s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 body {
@@ -183,11 +203,15 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn var(--animation-timing) ease-out forwards;
 }
 
 .welcome-message {
     text-align: center;
     margin-bottom: 23px;
+    opacity: 0;
+    animation: fadeIn var(--animation-timing) ease-out var(--animation-delay-short) forwards;
 }
 
 .welcome-heading {
@@ -206,6 +230,8 @@ body {
     width: 100%;
     max-width: 835px;
     position: relative;
+    opacity: 0;
+    animation: slideInUp var(--animation-timing) ease-out var(--animation-delay-medium) forwards;
 }
 
 .chat-input-box {
