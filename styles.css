@@ -725,3 +725,48 @@ h3 {
 [data-theme="dark"] .chat-input::placeholder {
     color: var(--color-text-tertiary);
 }
+
+.privacy-section {
+    max-width: 600px;
+}
+
+.privacy-section h4 {
+    color: var(--color-text-primary);
+    margin: 24px 0 12px;
+    font-family: var(--font-secondary);
+}
+
+.privacy-section p {
+    color: var(--color-text-tertiary);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.privacy-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.privacy-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+}
+
+.clear-data-button {
+    background-color: var(--color-accent-orange-dark);
+    color: var(--color-text-lighter);
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-button);
+    font-family: var(--font-primary);
+    cursor: pointer;
+}
+
+.clear-data-button:hover {
+    opacity: 0.9;
+}
