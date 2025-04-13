@@ -103,34 +103,74 @@
                     <button class="settings-tab" data-tab="appearance">Appearance</button>
                     <button class="settings-tab" data-tab="accessibility">Accessibility</button>
                     <button class="settings-tab" data-tab="privacy">Privacy</button>
+                    <button class="settings-tab" data-tab="language">Language</button>
                     <button class="settings-tab" data-tab="about">About</button>
                 </div>
                 <div class="settings-content">
                     <div class="settings-panel active" data-panel="general">
                         <h3>General</h3>
-                        <div class="language-section">
-                            <h4>System Language</h4>
-                            <div class="language-options">
-                                <button class="language-option active" data-lang="en">
-                                    <span class="material-icons">translate</span>
-                                    English
-                                </button>
-                                <button class="language-option" data-lang="es">
-                                    <span class="material-icons">translate</span>
-                                    Español
-                                </button>
-                                <button class="language-option" data-lang="no">
-                                    <span class="material-icons">translate</span>
-                                    Norsk
-                                </button>
-                                <button class="language-option" data-lang="sv">
-                                    <span class="material-icons">translate</span>
-                                    Svenska
-                                </button>
-                                <button class="language-option" data-lang="zh">
-                                    <span class="material-icons">translate</span>
-                                    中文
-                                </button>
+                        <div class="general-section">
+                            <h4>Default Settings</h4>
+                            <div class="settings-options">
+                                <div class="settings-option">
+                                    <label class="settings-switch">
+                                        <input type="checkbox" id="startupSound">
+                                        <span class="settings-slider"></span>
+                                    </label>
+                                    <span class="settings-label">Startup Sound</span>
+                                </div>
+                                <div class="settings-option">
+                                    <label class="settings-switch">
+                                        <input type="checkbox" id="autoSave">
+                                        <span class="settings-slider"></span>
+                                    </label>
+                                    <span class="settings-label">Auto-save Conversations</span>
+                                </div>
+                                <div class="settings-option">
+                                    <label class="settings-switch">
+                                        <input type="checkbox" id="desktopNotifications">
+                                        <span class="settings-slider"></span>
+                                    </label>
+                                    <span class="settings-label">Desktop Notifications</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="general-section">
+                            <h4>Response Settings</h4>
+                            <div class="settings-options">
+                                <div class="settings-option">
+                                    <label class="settings-switch">
+                                        <input type="checkbox" id="streamResponses">
+                                        <span class="settings-slider"></span>
+                                    </label>
+                                    <span class="settings-label">Stream Responses</span>
+                                </div>
+                                <div class="settings-option">
+                                    <label class="settings-switch">
+                                        <input type="checkbox" id="soundEffects">
+                                        <span class="settings-slider"></span>
+                                    </label>
+                                    <span class="settings-label">Message Sound Effects</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="general-section">
+                            <h4>Processing Mode</h4>
+                            <div class="radio-options">
+                                <div class="radio-option">
+                                    <input type="radio" id="localProcessing" name="processingMode" value="local">
+                                    <label for="localProcessing">Local Processing</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="cloudProcessing" name="processingMode" value="cloud">
+                                    <label for="cloudProcessing">Cloud Processing</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" id="hybridProcessing" name="processingMode" value="hybrid">
+                                    <label for="hybridProcessing">Hybrid (Recommended)</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -251,6 +291,34 @@
 
                             <h4>Cookie Policy</h4>
                             <p>We keep our cookie usage minimal and transparent. Only essential cookies necessary for basic functionality are enabled by default. Analytics cookies are optional and can be enabled or disabled according to your preference. We do not use any tracking or data collection cookies, maintaining your browsing privacy.</p>
+                        </div>
+                    </div>
+                    <div class="settings-panel" data-panel="language">
+                        <h3>Language</h3>
+                        <div class="language-section">
+                            <h4>System Language</h4>
+                            <div class="language-options">
+                                <button class="language-option active" data-lang="en">
+                                    <span class="material-icons">translate</span>
+                                    English
+                                </button>
+                                <button class="language-option" data-lang="es">
+                                    <span class="material-icons">translate</span>
+                                    Español
+                                </button>
+                                <button class="language-option" data-lang="no">
+                                    <span class="material-icons">translate</span>
+                                    Norsk
+                                </button>
+                                <button class="language-option" data-lang="sv">
+                                    <span class="material-icons">translate</span>
+                                    Svenska
+                                </button>
+                                <button class="language-option" data-lang="zh">
+                                    <span class="material-icons">translate</span>
+                                    中文
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="settings-panel" data-panel="about">

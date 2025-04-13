@@ -342,6 +342,48 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.about-footer p:last-child').textContent =
                 translations[lang].builtWith;
 
+            // Update General settings sections
+            document.querySelectorAll('.general-section h4').forEach((el, index) => {
+                if (index === 0) el.textContent = translations[lang].defaultSettings;
+                if (index === 1) el.textContent = translations[lang].responseSettings;
+                if (index === 2) el.textContent = translations[lang].processingMode;
+            });
+
+            // Update General settings options
+            const settingsLabels = document.querySelectorAll('.settings-label');
+            if (settingsLabels[0]) settingsLabels[0].textContent = translations[lang].startupSound;
+            if (settingsLabels[1]) settingsLabels[1].textContent = translations[lang].autoSave;
+            if (settingsLabels[2]) settingsLabels[2].textContent = translations[lang].desktopNotifications;
+            if (settingsLabels[3]) settingsLabels[3].textContent = translations[lang].streamResponses;
+            if (settingsLabels[4]) settingsLabels[4].textContent = translations[lang].messageSoundEffects;
+
+            // Update processing mode radio labels
+            const processingLabels = document.querySelectorAll('.radio-option label');
+            if (processingLabels[0]) processingLabels[0].textContent = translations[lang].localProcessing;
+            if (processingLabels[1]) processingLabels[1].textContent = translations[lang].cloudProcessing;
+            if (processingLabels[2]) processingLabels[2].textContent = translations[lang].hybridProcessing;
+
+            // Update language tab text
+            document.querySelector('[data-tab="language"]').textContent = translations[lang].language;
+
+            // Update privacy section headings and text
+            const privacyHeadings = document.querySelectorAll('.privacy-section h4');
+            if (privacyHeadings[0]) privacyHeadings[0].textContent = translations[lang].privacyDataEncryption;
+            if (privacyHeadings[1]) privacyHeadings[1].textContent = translations[lang].privacyDataHandling;
+            if (privacyHeadings[2]) privacyHeadings[2].textContent = translations[lang].privacyCookiePolicy;
+
+            // Update privacy section paragraphs
+            const privacyParagraphs = document.querySelectorAll('.privacy-section p');
+            if (privacyParagraphs[0]) privacyParagraphs[0].textContent = translations[lang].privacyEncryptionText;
+            if (privacyParagraphs[1]) privacyParagraphs[1].textContent = translations[lang].privacyHandlingText;
+            if (privacyParagraphs[2]) privacyParagraphs[2].textContent = translations[lang].privacyModelTrainingText;
+            if (privacyParagraphs[3]) privacyParagraphs[3].textContent = translations[lang].privacyCookieText;
+
+            // Update about section
+            document.querySelector('.about-logo h1').textContent = translations[lang].aboutCompactB;
+            document.querySelector('.version').textContent = `${translations[lang].version} 0.20 (UI)`;
+            document.querySelector('.about-description p').textContent = translations[lang].aboutDescription;
+
         } catch (error) {
             console.error('Error updating content:', error);
         }
@@ -544,4 +586,80 @@ document.addEventListener('DOMContentLoaded', function() {
 
     sendButton.addEventListener('click', handleMessage);
     chatInput.addEventListener('keypress', handleMessage);
+
+    // General Settings
+    const startupSound = document.getElementById('startupSound');
+    const autoSave = document.getElementById('autoSave');
+    const desktopNotifications = document.getElementById('desktopNotifications');
+    const streamResponses = document.getElementById('streamResponses');
+    const soundEffects = document.getElementById('soundEffects');
+    const processingModes = document.getElementsByName('processingMode');
+    
+    // Initialize general settings from localStorage
+    startupSound.checked = localStorage.getItem('startupSound') === 'true';
+    autoSave.checked = localStorage.getItem('autoSave') === 'true';
+    desktopNotifications.checked = localStorage.getItem('desktopNotifications') === 'true';
+    streamResponses.checked = localStorage.getItem('streamResponses') === 'true';
+    soundEffects.checked = localStorage.getItem('soundEffects') === 'true';
+    
+    // Set default processing mode if not set
+    const savedProcessingMode = localStorage.getItem('processingMode') || 'hybrid';
+    document.querySelector(`input[value="${savedProcessingMode}"]`).checked = true;
+    
+    // Event listeners for general settings
+    startupSound.addEventListener('change', () => {
+        localStorage.setItem('startupSound', startupSound.checked);
+        if (startupSound.checked && soundEffects.checked) {
+            playSound('startup');
+        }
+    });
+    
+    autoSave.addEventListener('change', () => {
+        localStorage.setItem('autoSave', autoSave.checked);
+    });
+    
+    desktopNotifications.addEventListener('change', async () => {
+        if (desktopNotifications.checked) {
+            const permission = await Notification.requestPermission();
+            if (permission !== 'granted') {
+                desktopNotifications.checked = false;
+                return;
+            }
+        }
+        localStorage.setItem('desktopNotifications', desktopNotifications.checked);
+    });
+    
+    streamResponses.addEventListener('change', () => {
+        localStorage.setItem('streamResponses', streamResponses.checked);
+        // Additional logic for handling streaming responses
+    });
+    
+    soundEffects.addEventListener('change', () => {
+        localStorage.setItem('soundEffects', soundEffects.checked);
+    });
+    
+    processingModes.forEach(mode => {
+        mode.addEventListener('change', () => {
+            if (mode.checked) {
+                localStorage.setItem('processingMode', mode.value);
+                // Additional logic for switching processing modes
+            }
+        });
+    });
+
+    // Function to play sound effects (can be expanded)
+    function playSound(type) {
+        if (!soundEffects.checked) return;
+        
+        const sounds = {
+            startup: 'startup.mp3',
+            message: 'message.mp3',
+            notification: 'notification.mp3'
+        };
+        
+        if (sounds[type]) {
+            const audio = new Audio(`assets/sounds/${sounds[type]}`);
+            audio.play().catch(console.error);
+        }
+    }
 });
