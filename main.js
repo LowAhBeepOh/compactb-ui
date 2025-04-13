@@ -329,6 +329,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (accessibilityLabels[1]) accessibilityLabels[1].textContent = translations[lang].reduceMotion;
             if (accessibilityLabels[2]) accessibilityLabels[2].textContent = translations[lang].screenReader;
             if (accessibilityLabels[3]) accessibilityLabels[3].textContent = translations[lang].showReadingTime;
+
+            // Update About tab and links
+            document.querySelector('[data-tab="about"]').textContent =
+                translations[lang].about;
+            document.querySelector('[href*="github.com"]').textContent =
+                translations[lang].sourceCode;
+            document.querySelectorAll('.about-link')[1].textContent =
+                translations[lang].documentation;
+            document.querySelectorAll('.about-link')[2].textContent =
+                translations[lang].checkUpdates;
+            document.querySelector('.about-footer p:last-child').textContent =
+                translations[lang].builtWith;
+
         } catch (error) {
             console.error('Error updating content:', error);
         }

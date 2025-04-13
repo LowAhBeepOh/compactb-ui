@@ -103,6 +103,7 @@
                     <button class="settings-tab" data-tab="appearance">Appearance</button>
                     <button class="settings-tab" data-tab="accessibility">Accessibility</button>
                     <button class="settings-tab" data-tab="privacy">Privacy</button>
+                    <button class="settings-tab" data-tab="about">About</button>
                 </div>
                 <div class="settings-content">
                     <div class="settings-panel active" data-panel="general">
@@ -240,9 +241,37 @@
                     <div class="settings-panel" data-panel="privacy">
                         <h3>Privacy</h3>
                         <div class="privacy-section">
-                            <h4>Data Collection</h4>
-                            <p>Chat history is stored locally on your device. Only data sent to our servers will be saved and train our models.</p>
-                            <p>Our smaller models will be ran on your device, while our bigger models will be ran on our servers. If you have a CompactB Module Block connected, the models will be processed through that.</p>
+                            <h4>Data Encryption</h4>
+                            <p>When using a CompactB Module Block connected to nearby users, all communications are secured using Budflick Encryption to ensure maximum privacy and security. For personal CompactB Module Block connections, we implement basic encryption protocols to protect your data. Cloud server communications utilize your browser's standard HTTPS encryption. Local responses processed directly on your PC are unencrypted for optimal performance.</p>
+
+                            <h4>Data Handling</h4>
+                            <p>Your privacy is our priority. All data stored on our cloud servers is automatically deleted at the end of each session, ensuring your conversations remain private. We maintain a strict no-third-party-sharing policy to keep your data solely between you and CompactB.</p>
+                            
+                            <p>For model training purposes, chats are automatically saved when you're using a personal CompactB Module Block or using our local model through the website. However, if you're using public CompactB Module Blocks or cloud servers, you're automatically opted out from contributing your chats to model training. We respect your choice and privacy, and we won't sell your data either.</p>
+
+                            <h4>Cookie Policy</h4>
+                            <p>We keep our cookie usage minimal and transparent. Only essential cookies necessary for basic functionality are enabled by default. Analytics cookies are optional and can be enabled or disabled according to your preference. We do not use any tracking or data collection cookies, maintaining your browsing privacy.</p>
+                        </div>
+                    </div>
+                    <div class="settings-panel" data-panel="about">
+                        <h3>About CompactB</h3>
+                        <div class="about-section">
+                            <div class="about-logo">
+                                <h1>CompactB</h1>
+                                <span class="version">Version 0.20 (UI)</span>
+                            </div>
+                            <div class="about-description">
+                                <p>CompactB is an innovative AI chat interface designed for simplicity and efficiency. Developed by <a href="https://youtube.com/@loabeepo" target="_blank" rel="noopener">LowahBeepoh</a>, it provides a seamless chat experience with both local and cloud AI processing capabilities.</p>
+                            </div>
+                            <div class="about-links">
+                                <a href="https://github.com/lowahbeepoh/compactb-ui" target="_blank" rel="noopener" class="about-link">
+                                    <span class="material-icons">code</span>
+                                    Source Code
+                                </a>
+                            </div>
+                            <div class="about-footer">
+                                <p>Built with ❤️ in Norway</p>
+                            </div>
                         </div>
                     </div>
                 </div>

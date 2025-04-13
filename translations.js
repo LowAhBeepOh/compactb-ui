@@ -29,7 +29,12 @@ const translations = {
         showReadingTime: "Show Estimated Reading Time",
         inputPlaceholder: "Ask your question here, or just yap.",
         privacyText1: "Chat history is stored locally on your device. Only data sent to our servers will be saved and train our models.",
-        privacyText2: "Our smaller models will be ran on your device, while our bigger models will be ran on our servers. If you have a CompactB Module Block connected, the models will be processed through that."
+        privacyText2: "Our smaller models will be ran on your device, while our bigger models will be ran on our servers. If you have a CompactB Module Block connected, the models will be processed through that.",
+        about: "About",
+        sourceCode: "Source Code",
+        documentation: "Documentation",
+        checkUpdates: "Check for Updates",
+        builtWith: "Built with ❤️ in Sweden"
     },
     es: {
         welcome: "Buenos Días",
@@ -61,7 +66,12 @@ const translations = {
         showReadingTime: "Mostrar Tiempo Estimado de Lectura",
         inputPlaceholder: "Haz tu pregunta aquí, o simplemente charla.",
         privacyText1: "El historial de chat se almacena localmente en tu dispositivo. Solo los datos enviados a nuestros servidores se guardarán y entrenarán nuestros modelos.",
-        privacyText2: "Nuestros modelos más pequeños se ejecutarán en tu dispositivo, mientras que nuestros modelos más grandes se ejecutarán en nuestros servidores. Si tienes un CompactB Module Block conectado, los modelos se procesarán a través de él."
+        privacyText2: "Nuestros modelos más pequeños se ejecutarán en tu dispositivo, mientras que nuestros modelos más grandes se ejecutarán en nuestros servidores. Si tienes un CompactB Module Block conectado, los modelos se procesarán a través de él.",
+        about: "Acerca de",
+        sourceCode: "Código Fuente",
+        documentation: "Documentación",
+        checkUpdates: "Buscar Actualizaciones",
+        builtWith: "Hecho con ❤️ en Suecia"
     },
     no: {
         welcome: "God Morgen",
@@ -93,7 +103,12 @@ const translations = {
         showReadingTime: "Vis estimert lesetid",
         inputPlaceholder: "Still spørsmålet ditt her, eller bare prat.",
         privacyText1: "Chathistorikken lagres lokalt på enheten din. Bare data som sendes til våre servere vil bli lagret og trene modellene våre.",
-        privacyText2: "Våre mindre modeller vil kjøre på enheten din, mens våre større modeller vil kjøre på våre servere. Hvis du har en CompactB Module Block tilkoblet, vil modellene bli behandlet gjennom den."
+        privacyText2: "Våre mindre modeller vil kjøre på enheten din, mens våre større modeller vil kjøre på våre servere. Hvis du har en CompactB Module Block tilkoblet, vil modellene bli behandlet gjennom den.",
+        about: "Om",
+        sourceCode: "Kildekode",
+        documentation: "Dokumentasjon",
+        checkUpdates: "Se etter oppdateringer",
+        builtWith: "Laget med ❤️ i Sverige"
     },
     sv: {
         welcome: "God Morgon",
@@ -125,7 +140,12 @@ const translations = {
         showReadingTime: "Visa uppskattad lästid",
         inputPlaceholder: "Ställ din fråga här, eller bara prata.",
         privacyText1: "Chatthistoriken lagras lokalt på din enhet. Endast data som skickas till våra servrar kommer att sparas och träna våra modeller.",
-        privacyText2: "Våra mindre modeller kommer att köras på din enhet, medan våra större modeller kommer att köras på våra servrar. Om du har en CompactB Module Block ansluten kommer modellerna att bearbetas genom den."
+        privacyText2: "Våra mindre modeller kommer att köras på din enhet, medan våra större modeller kommer att köras på våra servrar. Om du har en CompactB Module Block ansluten kommer modellerna att bearbetas genom den.",
+        about: "Om",
+        sourceCode: "Källkod",
+        documentation: "Dokumentation",
+        checkUpdates: "Sök efter uppdateringar",
+        builtWith: "Byggd med ❤️ i Sverige"
     },
     zh: {
         welcome: "早上好",
@@ -157,6 +177,11 @@ const translations = {
         showReadingTime: "显示预估阅读时间",
         inputPlaceholder: "在这里输入您的问题，或随便聊聊。",
         privacyText1: "聊天记录存储在您的设备上。只有发送到我们服务器的数据才会被保存并用于训练我们的模型。",
-        privacyText2: "我们的小型模型将在您的设备上运行，而大型模型将在我们的服务器上运行。如果您连接了CompactB模块，模型将通过它进行处理。"
+        privacyText2: "我们的小型模型将在您的设备上运行，而大型模型将在我们的服务器上运行。如果您连接了CompactB模块，模型将通过它进行处理。",
+        about: "关于",
+        sourceCode: "源代码",
+        documentation: "文档",
+        checkUpdates: "检查更新",
+        builtWith: "用❤️在瑞典制造"
     }
 };
