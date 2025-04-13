@@ -432,20 +432,26 @@ document.addEventListener('DOMContentLoaded', function() {
             item.classList.toggle('active', itemTitle === chatTitle);
         });
         
-        // Load chat messages for the selected chat
+        // Load chat messages for the selected chat with faster staggered animation
         if (chatData[chatTitle]) {
-            chatData[chatTitle].forEach(message => {
-                addMessage(message.text, message.isUser);
+            chatData[chatTitle].forEach((message, index) => {
+                // Add staggered delay to each message with reduced delay
+                setTimeout(() => {
+                    addMessage(message.text, message.isUser, index);
+                }, index * 60); // 60ms delay between each message (reduced from 120ms)
             });
         }
     }
     
-    function addMessage(text, isUser = false) {
+    function addMessage(text, isUser = false, index = 0) {
         const message = document.createElement('div');
         message.classList.add('message', isUser ? 'user' : 'ai');
         
         // Add accessibility attributes
         message.setAttribute('data-sender', isUser ? 'You' : 'AI');
+        
+        // Set animation delay based on index (reduced for faster appearance)
+        message.style.animationDelay = `${index * 0.04}s`;
         
         // Calculate reading time if enabled
         if (showReadingTime.checked) {
@@ -481,8 +487,6 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.appendChild(message);
         message.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-
-
 
     function handleMessage(event) {
         if (event.key && event.key !== 'Enter') return;

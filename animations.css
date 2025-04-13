@@ -1,0 +1,181 @@
+/* Smooth animations for CompactB UI */
+
+/* Define animation variables */
+:root {
+    /* Custom timing functions */
+    --smooth-ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+    --smooth-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+    --smooth-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --smooth-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    /* Animation durations */
+    --anim-duration-fast: 0.2s;
+    --anim-duration-medium: 0.4s;
+    --anim-duration-slow: 0.6s;
+}
+
+/* Subtle hover animations */
+.chat-item, .settings-tab, .theme-option, .language-option, .chat-style-option {
+    transition: transform var(--anim-duration-fast) var(--smooth-ease-out),
+                background-color var(--anim-duration-fast) var(--smooth-ease-out),
+                box-shadow var(--anim-duration-fast) var(--smooth-ease-out);
+}
+
+.chat-item:hover, .settings-tab:hover {
+    transform: translateX(4px);
+}
+
+.theme-option:hover, .language-option:hover, .chat-style-option:hover {
+    transform: scale(1.02);
+}
+
+/* Button press effect */
+.new-chat-button, .send-button, .add-files-button, .style-selector,
+.close-settings, .collapse-sidebar-button, .font-size-button {
+    transition: transform var(--anim-duration-fast) var(--smooth-spring),
+                background-color var(--anim-duration-fast) var(--smooth-ease-out),
+                box-shadow var(--anim-duration-fast) var(--smooth-ease-out);
+}
+
+.new-chat-button:active, .send-button:active, .add-files-button:active,
+.style-selector:active, .close-settings:active, .collapse-sidebar-button:active,
+.font-size-button:active {
+    transform: scale(0.95);
+}
+
+/* Improved sidebar toggle animation */
+.sidebar {
+    transition: transform var(--anim-duration-medium) var(--smooth-ease-out),
+                width var(--anim-duration-medium) var(--smooth-ease-out);
+}
+
+.main-content {
+    transition: margin-left var(--anim-duration-medium) var(--smooth-ease-out),
+                width var(--anim-duration-medium) var(--smooth-ease-out);
+}
+
+.collapse-sidebar-button .material-icons {
+    transition: transform var(--anim-duration-medium) var(--smooth-ease-out);
+}
+
+.sidebar.compressed .collapse-sidebar-button .material-icons,
+.sidebar:not(.open) .collapse-sidebar-button .material-icons {
+    transform: rotate(180deg);
+}
+
+/* Settings panel transitions */
+.settings-container {
+    transition: opacity var(--anim-duration-medium) var(--smooth-ease-out),
+                transform var(--anim-duration-medium) var(--smooth-spring);
+    opacity: 0;
+    transform: scale(0.98);
+    pointer-events: none;
+}
+
+.settings-container.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
+}
+
+.settings-panel {
+    transition: opacity var(--anim-duration-medium) var(--smooth-ease-out),
+                transform var(--anim-duration-medium) var(--smooth-spring);
+    transform: translateY(10px);
+}
+
+.settings-panel.active {
+    transform: translateY(0);
+}
+
+/* Enhanced fade animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Apply animations to elements */
+.welcome-message {
+    animation: scaleIn var(--anim-duration-slow) var(--smooth-spring) forwards;
+}
+
+.chat-input-container {
+    animation: slideUp var(--anim-duration-slow) var(--smooth-spring) forwards;
+}
+
+.chat-item {
+    animation: slideIn var(--anim-duration-medium) var(--smooth-ease-out) forwards;
+    animation-delay: calc(var(--item-index, 0) * 0.05s);
+}
+
+/* Message animations */
+@keyframes cascadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.message {
+    animation: cascadeIn var(--anim-duration-fast) var(--smooth-spring) forwards;
+    animation-fill-mode: both;
+    transform-origin: top center;
+    opacity: 0;
+}
+
+/* Input focus effects */
+.chat-input {
+    transition: border var(--anim-duration-fast) var(--smooth-ease-out);
+}
+
+.chat-input:focus {
+    outline: none;
+}
+
+/* Accessibility - respect reduced motion settings */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-delay: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* Reduced motion class for users who enable that setting */
+.reduce-motion * {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+}
