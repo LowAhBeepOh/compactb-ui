@@ -56,7 +56,15 @@ const translations = {
         privacyCookieText: "We keep our cookie usage minimal and transparent. Only essential cookies necessary for basic functionality are enabled by default. Analytics cookies are optional and can be enabled or disabled according to your preference. We do not use any tracking or data collection cookies, maintaining your browsing privacy.",
         aboutCompactB: "About CompactB",
         version: "Version",
-        aboutDescription: "CompactB is an innovative AI chat interface designed for simplicity and efficiency. Developed by"
+        aboutDescription: "CompactB is an innovative AI chat interface designed for simplicity and efficiency. Developed by",
+        startupSoundDefault: "Future Keys",
+        startupSoundCalm: "Lofi Piano",
+        startupSoundBits: "Chip Organ",
+        startupSoundBlip: "Blip Perc",
+        startupSoundTaiko: "Taiko",
+        startupSoundGame: "Phonk Bell Classic",
+        startupSoundFunk: "Funk Guitar",
+        startupSoundCall: "Movie Pad"
     },
     es: {
         welcome: "Buenos Días",
@@ -115,7 +123,15 @@ const translations = {
         privacyCookieText: "Mantenemos el uso de cookies mínimo y transparente. Solo las cookies esenciales necesarias para la funcionalidad básica están habilitadas por defecto. Las cookies analíticas son opcionales y se pueden habilitar o deshabilitar según su preferencia. No utilizamos cookies de seguimiento o recopilación de datos, manteniendo su privacidad de navegación.",
         aboutCompactB: "Acerca de CompactB",
         version: "Versión",
-        aboutDescription: "CompactB es una interfaz de chat de IA innovadora diseñada para la simplicidad y eficiencia. Desarrollado por"
+        aboutDescription: "CompactB es una interfaz de chat de IA innovadora diseñada para la simplicidad y eficiencia. Desarrollado por",
+        startupSoundDefault: "Teclas del Futuro",
+        startupSoundCalm: "Piano Lofi",
+        startupSoundBits: "Órgano de 8 Bits",
+        startupSoundBlip: "Percusión Blip",
+        startupSoundTaiko: "Taiko",
+        startupSoundGame: "Campana Phonk Clásica",
+        startupSoundFunk: "Guitarra Funk",
+        startupSoundCall: "Pad de Película"
     },
     no: {
         welcome: "God Morgen",
@@ -174,7 +190,15 @@ const translations = {
         privacyCookieText: "Vi holder bruken av informasjonskapsler minimal og transparent. Bare essensielle informasjonskapsler som er nødvendige for grunnleggende funksjonalitet er aktivert som standard. Analytiske informasjonskapsler er valgfrie og kan aktiveres eller deaktiveres etter eget ønske. Vi bruker ikke sporings- eller datainnsamlingscookies, og opprettholder ditt personvern under surfing.",
         aboutCompactB: "Om CompactB",
         version: "Versjon",
-        aboutDescription: "CompactB er et innovativt AI-chatgrensesnitt designet for enkelhet og effektivitet. Utviklet av"
+        aboutDescription: "CompactB er et innovativt AI-chatgrensesnitt designet for enkelhet og effektivitet. Utviklet av",
+        startupSoundDefault: "Fremtidstaster",
+        startupSoundCalm: "Lofi Piano",
+        startupSoundBits: "Chip-orgel",
+        startupSoundBlip: "Blip Perk",
+        startupSoundTaiko: "Taiko",
+        startupSoundGame: "Phonk Bjelle Klassisk",
+        startupSoundFunk: "Funk Gitar",
+        startupSoundCall: "Film Pad"
     },
     sv: {
         welcome: "God Morgon",
@@ -233,7 +257,15 @@ const translations = {
         privacyCookieText: "Vi håller vår cookie-användning minimal och transparent. Endast nödvändiga cookies för grundläggande funktionalitet är aktiverade som standard. Analytiska cookies är valfria och kan aktiveras eller inaktiveras enligt dina önskemål. Vi använder inte spårnings- eller datainsamlingscookies, vilket bevarar din surfintegritet.",
         aboutCompactB: "Om CompactB",
         version: "Version",
-        aboutDescription: "CompactB är ett innovativt AI-chattgränssnitt designat för enkelhet och effektivitet. Utvecklat av"
+        aboutDescription: "CompactB är ett innovativt AI-chattgränssnitt designat för enkelhet och effektivitet. Utvecklat av",
+        startupSoundDefault: "Framtidstangenter",
+        startupSoundCalm: "Lofi Piano",
+        startupSoundBits: "Chiporgel",
+        startupSoundBlip: "Blip Perc",
+        startupSoundTaiko: "Taiko",
+        startupSoundGame: "Phonk Klocka Klassisk",
+        startupSoundFunk: "Funk Gitarr",
+        startupSoundCall: "Film Pad"
     },
     zh: {
         welcome: "早上好",
@@ -292,6 +324,14 @@ const translations = {
         privacyCookieText: "我们保持Cookie使用最小化和透明化。默认情况下只启用基本功能所需的必要Cookie。分析Cookie是可选的，可以根据您的偏好启用或禁用。我们不使用跟踪或数据收集Cookie，保持您的浏览隐私。",
         aboutCompactB: "关于CompactB",
         version: "版本",
-        aboutDescription: "CompactB是一个创新的AI聊天界面，专为简单和效率而设计。开发者"
+        aboutDescription: "CompactB是一个创新的AI聊天界面，专为简单和效率而设计。开发者",
+        startupSoundDefault: "未来键盘音",
+        startupSoundCalm: "Lofi钢琴",
+        startupSoundBits: "芯片风琴",
+        startupSoundBlip: "滴答打击乐",
+        startupSoundTaiko: "太鼓",
+        startupSoundGame: "Phonk经典铃声",
+        startupSoundFunk: "放克吉他",
+        startupSoundCall: "电影配乐"
     }
 };

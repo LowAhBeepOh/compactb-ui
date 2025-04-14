@@ -3,6 +3,60 @@ document.addEventListener('DOMContentLoaded', function() {
     const collapseButton = document.getElementById('collapseSidebarButton');
     const body = document.body;
     
+    // General Settings elements initialization
+    const startupSound = document.getElementById('startupSound');
+    const soundEffects = document.getElementById('soundEffects');
+    const autoSave = document.getElementById('autoSave');
+    const desktopNotifications = document.getElementById('desktopNotifications');
+    const streamResponses = document.getElementById('streamResponses');
+    const processingModes = document.getElementsByName('processingMode');
+    
+    // Initialize general settings from localStorage
+    startupSound.checked = localStorage.getItem('startupSound') === 'true';
+    soundEffects.checked = localStorage.getItem('soundEffects') === 'true';
+    
+    // Function to play selected sound
+    function playSound(type) {
+        // Allow startup sound to play regardless of soundEffects setting
+        if (!soundEffects.checked && type !== 'startup') return;
+        
+        // For startup sound, check if startupSound is enabled
+        if (type === 'startup' && !startupSound.checked) return;
+        
+        const sounds = {
+            startup: {
+                default: 'startup.wav',
+                calm: 'startupCalm.wav',
+                '8-bit': 'startupBits.wav',
+                blip: 'startupBlip.wav',
+                taiko: 'startupTaiko.wav',
+                game: 'startupGame.wav',
+                funk: 'startupFunk.wav',
+                call: 'startupCalling.wav'
+            },
+            message: 'message.mp3',
+            notification: 'notification.mp3'
+        };
+        
+        let soundFile;
+        if (type === 'startup') {
+            const soundType = localStorage.getItem('startupSoundType') || 'default';
+            soundFile = sounds.startup[soundType];
+        } else {
+            soundFile = sounds[type];
+        }
+        
+        if (soundFile) {
+            const audio = new Audio(`assets/sounds/${soundFile}`);
+            audio.play().catch(error => console.error(`Error playing ${type} sound:`, error));
+        }
+    }
+    
+    // Check if startup sound is enabled and play it
+    if (startupSound.checked) {
+        playSound('startup');
+    }
+    
     // Sample chat data for each chat item
     const chatData = {
         'Laufey vs. Sabrina *': [
@@ -586,14 +640,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     sendButton.addEventListener('click', handleMessage);
     chatInput.addEventListener('keypress', handleMessage);
-
-    // General Settings
-    const startupSound = document.getElementById('startupSound');
-    const autoSave = document.getElementById('autoSave');
-    const desktopNotifications = document.getElementById('desktopNotifications');
-    const streamResponses = document.getElementById('streamResponses');
-    const soundEffects = document.getElementById('soundEffects');
-    const processingModes = document.getElementsByName('processingMode');
     
     // Initialize general settings from localStorage
     startupSound.checked = localStorage.getItem('startupSound') === 'true';
@@ -649,17 +695,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to play sound effects (can be expanded)
     function playSound(type) {
-        if (!soundEffects.checked) return;
+        // Allow startup sound to play regardless of soundEffects setting
+        if (!soundEffects.checked && type !== 'startup') return;
+        
+        // For startup sound, check if startupSound is enabled
+        if (type === 'startup' && !startupSound.checked) return;
         
         const sounds = {
-            startup: 'startup.mp3',
+            startup: {
+                default: 'startup.wav',
+                calm: 'startupCalm.wav',
+                '8-bit': 'startupBits.wav',
+                blip: 'startupBlip.wav',
+                taiko: 'startupTaiko.wav',
+                game: 'startupGame.wav',
+                funk: 'startupFunk.wav',
+                call: 'startupCalling.wav'
+            },
             message: 'message.mp3',
             notification: 'notification.mp3'
         };
         
-        if (sounds[type]) {
-            const audio = new Audio(`assets/sounds/${sounds[type]}`);
-            audio.play().catch(console.error);
+        let soundFile;
+        if (type === 'startup') {
+            const soundType = localStorage.getItem('startupSoundType') || 'default';
+            soundFile = sounds.startup[soundType];
+        } else {
+            soundFile = sounds[type];
+        }
+        
+        if (soundFile) {
+            const audio = new Audio(`assets/sounds/${soundFile}`);
+            audio.play().catch(error => console.error(`Error playing ${type} sound:`, error));
         }
     }
+
+    // Initialize startup sound selection from localStorage
+    const startupSoundSelect = document.getElementById('startupSoundSelect');
+    const previewSound = document.getElementById('previewSound');
+    const savedStartupSound = localStorage.getItem('startupSoundType') || 'default';
+    startupSoundSelect.value = savedStartupSound;
+
+    // Event listeners for startup sound selection
+    startupSoundSelect.addEventListener('change', () => {
+        localStorage.setItem('startupSoundType', startupSoundSelect.value);
+    });
+
+    previewSound.addEventListener('click', () => {
+        // Temporarily enable sound to preview
+        const wasEnabled = startupSound.checked;
+        startupSound.checked = true;
+        playSound('startup');
+        startupSound.checked = wasEnabled;
+    });
 });

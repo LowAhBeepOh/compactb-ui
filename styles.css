@@ -1679,3 +1679,50 @@ input:checked + .settings-slider:before {
     color: var(--color-text-secondary);
     font-size: var(--font-size-xxs);
 }
+
+.startup-sound-selector {
+    margin-left: 44px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.sound-select {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--color-input-bg);
+    border: none;
+    color: var(--color-text-secondary);
+    font-family: var(--font-secondary);
+    font-size: var(--font-size-xxs);
+    cursor: pointer;
+}
+
+.preview-sound-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-round);
+    background: var(--color-accent-orange);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    transition: all 0.2s ease;
+}
+
+.preview-sound-btn:hover {
+    background: var(--color-accent-orange-dark);
+    transform: scale(1.05);
+}
+
+.preview-sound-btn .material-icons {
+    font-size: 18px;
+}
+
+/* Hide sound selector when startup sound is disabled */
+#startupSound:not(:checked) ~ #startupSoundSelector {
+    display: none;
+}
