@@ -619,7 +619,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Simulate AI response based on context
         setTimeout(() => {
-            let response = "I'm here to help! What would you like to know?";
+            let response = "sup :P";
             
             // Contextual responses based on current chat
             if (currentChat === 'Project Brainstorming') {
