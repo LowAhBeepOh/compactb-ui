@@ -64,7 +64,12 @@ const translations = {
         startupSoundTaiko: "Taiko",
         startupSoundGame: "Phonk Bell Classic",
         startupSoundFunk: "Funk Guitar",
-        startupSoundCall: "Movie Pad"
+        startupSoundCall: "Movie Pad",
+        ai: "AI",
+        integrateWithLMStudio: "与LM Studio集成",
+        lmStudioEndpoint: "LM Studio API端点",
+        lmStudioEndpointPlaceholder: "http://127.0.0.1:1234",
+        lmStudioIntegrationDescription: "连接到本地LM Studio实例以处理AI响应"
     },
     es: {
         welcome: "Buenos Días",
@@ -131,7 +136,12 @@ const translations = {
         startupSoundTaiko: "Taiko",
         startupSoundGame: "Campana Phonk Clásica",
         startupSoundFunk: "Guitarra Funk",
-        startupSoundCall: "Pad de Película"
+        startupSoundCall: "Pad de Película",
+        ai: "IA",
+        integrateWithLMStudio: "Integrar con LM Studio",
+        lmStudioEndpoint: "Punto de conexión de la API de LM Studio",
+        lmStudioEndpointPlaceholder: "http://127.0.0.1:1234",
+        lmStudioIntegrationDescription: "Conectar a una instancia local de LM Studio para procesar respuestas de IA"
     },
     no: {
         welcome: "God Morgen",
@@ -198,7 +208,12 @@ const translations = {
         startupSoundTaiko: "Taiko",
         startupSoundGame: "Phonk Bjelle Klassisk",
         startupSoundFunk: "Funk Gitar",
-        startupSoundCall: "Film Pad"
+        startupSoundCall: "Film Pad",
+        ai: "AI",
+        integrateWithLMStudio: "Integrer med LM Studio",
+        lmStudioEndpoint: "LM Studio API-endepunkt",
+        lmStudioEndpointPlaceholder: "http://127.0.0.1:1234",
+        lmStudioIntegrationDescription: "Koble til en lokal LM Studio-instans for å behandle AI-svar"
     },
     sv: {
         welcome: "God Morgon",
@@ -265,7 +280,12 @@ const translations = {
         startupSoundTaiko: "Taiko",
         startupSoundGame: "Phonk Klocka Klassisk",
         startupSoundFunk: "Funk Gitarr",
-        startupSoundCall: "Film Pad"
+        startupSoundCall: "Film Pad",
+        ai: "AI",
+        integrateWithLMStudio: "Integrera med LM Studio",
+        lmStudioEndpoint: "LM Studio API-slutpunkt",
+        lmStudioEndpointPlaceholder: "http://127.0.0.1:1234",
+        lmStudioIntegrationDescription: "Anslut till en lokal LM Studio-instans för att bearbeta AI-svar"
     },
     zh: {
         welcome: "早上好",

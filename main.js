@@ -11,6 +11,105 @@ document.addEventListener('DOMContentLoaded', function() {
     const streamResponses = document.getElementById('streamResponses');
     const processingModes = document.getElementsByName('processingMode');
     
+    // LM Studio Integration elements
+    const integrateWithLMStudio = document.getElementById('integrateWithLMStudio');
+    const lmStudioSettings = document.getElementById('lmStudioSettings');
+    const lmStudioEndpoint = document.getElementById('lmStudioEndpoint');
+    
+    // Initialize LM Studio settings
+    integrateWithLMStudio.checked = localStorage.getItem('lmStudioEnabled') === 'true';
+    lmStudioSettings.style.display = integrateWithLMStudio.checked ? 'block' : 'none';
+    lmStudioEndpoint.value = localStorage.getItem('lmStudioEndpoint') || 'http://127.0.0.1:1234';
+    
+    // Personality elements
+    const personalityOptions = document.querySelectorAll('.personality-option');
+    
+    // Initialize personality from localStorage or default to 'none'
+    const savedPersonality = localStorage.getItem('aiPersonality') || 'none';
+    
+    // Personality system prompts
+    const personalityPrompts = {
+        none: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers.",
+        red: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is hating politics, a bit calm, but also a bit rude.",
+        orange: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is literally just acting like a jolly ginger from Ireland. (take it lightly im not trying to be rude)",
+        yellow: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being a bit energetic in your responses, and being nice.",
+        green: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being calm, a bit unformal in some cases, and genuinely being nice and supportive.)",
+        blue: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being kinda tired, your formal and unformal tone changes randomly, and your responses are short and dry.",
+        velvet: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being writing like a person who had their emo phase two months ago, but also responding to the user in the worst possible way.",
+        pink: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being very friendly, silly, and write using emotions and writing in a VERY informal way, like something like 'OMG HAIIII >_<'.",
+        black: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is... well, something. act like you are a person who is tired all the time, and is going through a lot of negative stuff, be a tiny bit rude sometimes.",
+        mikurot: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being a Hatsune Miku fan who responds normally to most messages, but gets extremely excited when any Miku song is mentioned.",
+    };
+    
+    // List of Miku songs to detect
+    const mikuSongs = [
+        'telepathy', 'vampire', 'magical mirai', 'magical cure love shot', 'world is mine', 
+        'melt', 'love is war', 'rolling girl', 'levan polkka', 'triple baka', 
+        'disappearance', 'senbonzakura', 'two-faced lovers', 'deep sea girl', 
+        'tell your world', 'weekender girl', 'sand planet', 'ghost rule', 'hibikase',
+        'wowaka', 'ryo', 'mitchie m', 'oster project', 'deco*27', 'kikuo', 'giga', 'pinocchio-p',
+        'vocaloid', 'project diva', 'project sekai', 'mesmerizer'
+    ];
+    
+    // Function to check if a message contains Miku song references
+    function containsMikuSongReference(message) {
+        if (!message) return false;
+        const lowerMessage = message.toLowerCase();
+        return mikuSongs.some(song => lowerMessage.includes(song.toLowerCase()));
+    }
+    
+    // LM Studio integration toggle event
+    integrateWithLMStudio.addEventListener('change', function() {
+        localStorage.setItem('lmStudioEnabled', this.checked);
+        lmStudioSettings.style.display = this.checked ? 'block' : 'none';
+    });
+    
+    // Save LM Studio endpoint when changed
+    lmStudioEndpoint.addEventListener('change', function() {
+        localStorage.setItem('lmStudioEndpoint', this.value);
+    });
+    
+    // Set initial active personality
+    personalityOptions.forEach(option => {
+        if (option.dataset.personality === savedPersonality) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
+    
+    // Personality selection event listeners
+    personalityOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Remove active class from all options
+            personalityOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Add active class to clicked option
+            option.classList.add('active');
+            
+            // Save selected personality to localStorage
+            const personality = option.dataset.personality;
+            localStorage.setItem('aiPersonality', personality);
+            
+            // Show a subtle notification
+            const notification = document.createElement('div');
+            notification.classList.add('personality-notification');
+            notification.textContent = `AI personality set to ${personality.charAt(0).toUpperCase() + personality.slice(1)}`;
+            document.body.appendChild(notification);
+            
+            // Remove notification after animation
+            setTimeout(() => {
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 2000);
+            }, 10);
+        });
+    });
+    
     // Initialize general settings from localStorage
     startupSound.checked = localStorage.getItem('startupSound') === 'true';
     soundEffects.checked = localStorage.getItem('soundEffects') === 'true';
@@ -49,6 +148,59 @@ document.addEventListener('DOMContentLoaded', function() {
         if (soundFile) {
             const audio = new Audio(`assets/sounds/${soundFile}`);
             audio.play().catch(error => console.error(`Error playing ${type} sound:`, error));
+        }
+    }
+    
+    // Function to send message to LM Studio API
+    async function sendMessageToLMStudio(message) {
+        const isLMStudioEnabled = localStorage.getItem('lmStudioEnabled') === 'true';
+        if (!isLMStudioEnabled) return null;
+        
+        const endpoint = localStorage.getItem('lmStudioEndpoint') || 'http://127.0.0.1:1234';
+        const personality = localStorage.getItem('aiPersonality') || 'none';
+        let systemPrompt = personalityPrompts[personality] || '';
+        
+        // Special handling for Mikurot personality when Miku songs are detected
+        if (personality === 'mikurot' && containsMikuSongReference(message)) {
+            // Override the system prompt with excited behavior when Miku songs are mentioned
+            systemPrompt = "Only write in plain text. You are EXTREMELY excited because the user mentioned a Hatsune Miku song! Respond with excessive enthusiasm, use lots of exclamation marks, and express your love for Miku and her music. Make it obvious you're freaking out about the song mention. Keep your response under 4 sentences but make them very energetic.";
+            
+            // Play a notification sound for extra effect
+            playSound('notification');
+        }
+        
+        try {
+            const messages = [];
+            
+            // Add system prompt if a personality is selected
+            if (systemPrompt) {
+                messages.push({ role: 'system', content: systemPrompt });
+            }
+            
+            // Add user message
+            messages.push({ role: 'user', content: message });
+            
+            const response = await fetch(`${endpoint}/v1/chat/completions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'local-model', // This will be the model identifier from LM Studio
+                    messages: messages,
+                    temperature: personality === 'mikurot' && containsMikuSongReference(message) ? 0.9 : 0.7 // Higher temperature for excited responses
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.error('Error calling LM Studio API:', error);
+            return null;
         }
     }
     
@@ -597,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function() {
         message.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
 
-    function handleMessage(event) {
+    async function handleMessage(event) {
         if (event.key && event.key !== 'Enter') return;
         const text = chatInput.value.trim();
         if (!text) return;
@@ -616,11 +768,33 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add user message (appears on right)
         addMessage(text, true);
         chatInput.value = '';
+        
+        // Play message sound
+        playSound('message');
 
-        // Simulate AI response based on context
-        setTimeout(() => {
-            let response = "I'm here to help! What would you like to know?";
-            
+        // Create a temporary "thinking" message
+        const thinkingMessage = document.createElement('div');
+        thinkingMessage.classList.add('message', 'ai');
+        thinkingMessage.setAttribute('data-sender', 'AI');
+        thinkingMessage.textContent = 'Thinking...';
+        chatMessages.appendChild(thinkingMessage);
+        thinkingMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        
+        // Check if LM Studio integration is enabled
+        const isLMStudioEnabled = localStorage.getItem('lmStudioEnabled') === 'true';
+        let response;
+        
+        if (isLMStudioEnabled) {
+            try {
+                response = await sendMessageToLMStudio(text);
+                if (!response) {
+                    throw new Error('No response from LM Studio');
+                }
+            } catch (error) {
+                console.error('Error with LM Studio:', error);
+                response = "I couldn't connect to LM Studio. Please check your connection settings and make sure LM Studio is running.";
+            }
+        } else {
             // Contextual responses based on current chat
             if (currentChat === 'Project Brainstorming') {
                 response = "That's a great idea for your project! Would you like to explore it further?";
@@ -632,10 +806,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 response = "I understand your coding question. Have you tried debugging with console.log?";
             } else if (currentChat === 'Book Recommendations') {
                 response = "Based on your reading preferences, you might also enjoy 'The Expanse' series.";
+            } else {
+                response = "I'm here to help! What would you like to know?";
             }
-            
-            addMessage(response, false);
-        }, 500);
+        }
+        
+        // Remove the thinking message
+        chatMessages.removeChild(thinkingMessage);
+        
+        // Add the actual response
+        addMessage(response, false);
+        
+        // Play notification sound
+        playSound('notification');
     }
 
     sendButton.addEventListener('click', handleMessage);

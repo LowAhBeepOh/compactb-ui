@@ -103,6 +103,7 @@
                     <button class="settings-tab" data-tab="appearance">Appearance</button>
                     <button class="settings-tab" data-tab="accessibility">Accessibility</button>
                     <button class="settings-tab" data-tab="privacy">Privacy</button>
+                    <button class="settings-tab" data-tab="ai">AI</button>
                     <button class="settings-tab" data-tab="language">Language</button>
                     <button class="settings-tab" data-tab="about">About</button>
                 </div>
@@ -334,6 +335,75 @@
                                     中文
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="settings-panel" data-panel="ai">
+                        <h3>AI</h3>
+                        <div class="ai-section">
+                            <h4>LM Studio Integration</h4>
+                            <div class="settings-options">
+                                <div class="settings-option">
+                                    <label class="settings-switch">
+                                        <input type="checkbox" id="integrateWithLMStudio">
+                                        <span class="settings-slider"></span>
+                                    </label>
+                                    <span class="settings-label">Integrate with LM Studio</span>
+                                </div>
+                                <div class="lm-studio-settings" id="lmStudioSettings">
+                                    <div class="input-field">
+                                        <label for="lmStudioEndpoint">LM Studio API Endpoint</label>
+                                        <input type="text" id="lmStudioEndpoint" placeholder="http://127.0.0.1:1234" value="http://127.0.0.1:1234">
+                                    </div>
+                                    <p class="settings-description">Connect to a local LM Studio instance to process AI responses</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-section">
+                            <h4>Personality</h4>
+                            <div class="personality-options">
+                                <div class="personality-option active" data-personality="none">
+                                    <div class="personality-color none"></div>
+                                    <span class="personality-name">None</span>
+                                </div>
+                                <div class="personality-option" data-personality="red">
+                                    <div class="personality-color red"></div>
+                                    <span class="personality-name">Red</span>
+                                </div>
+                                <div class="personality-option" data-personality="orange">
+                                    <div class="personality-color orange"></div>
+                                    <span class="personality-name">Orange</span>
+                                </div>
+                                <div class="personality-option" data-personality="yellow">
+                                    <div class="personality-color yellow"></div>
+                                    <span class="personality-name">Yellow</span>
+                                </div>
+                                <div class="personality-option" data-personality="green">
+                                    <div class="personality-color green"></div>
+                                    <span class="personality-name">Green</span>
+                                </div>
+                                <div class="personality-option" data-personality="blue">
+                                    <div class="personality-color blue"></div>
+                                    <span class="personality-name">Blue</span>
+                                </div>
+                                <div class="personality-option" data-personality="velvet">
+                                    <div class="personality-color velvet"></div>
+                                    <span class="personality-name">Velvet</span>
+                                </div>
+                                <div class="personality-option" data-personality="pink">
+                                    <div class="personality-color pink"></div>
+                                    <span class="personality-name">Pink</span>
+                                </div>
+                                <div class="personality-option" data-personality="black">
+                                    <div class="personality-color black"></div>
+                                    <span class="personality-name">Black</span>
+                                </div>
+                                <div class="personality-option" data-personality="mikurot">
+                                    <div class="personality-image mikurot"></div>
+                                    <span class="personality-name">Mikurot</span>
+                                </div>
+                            </div>
+                            <p class="settings-description">Select a personality for the AI to adopt during conversations</p>
                         </div>
                     </div>
                     <div class="settings-panel" data-panel="about">

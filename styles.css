@@ -1078,7 +1078,7 @@ h3 {
     border-radius: 3px;
 }
 
-.privacy-section p {
+.privacy-section p, .settings-description {
     color: var(--color-text-tertiary);
     line-height: 1.5;
     margin-bottom: 24px;
@@ -1403,39 +1403,187 @@ h3 {
 }
 
 /* Accessibility features */
-.accessibility-section {
+.accessibility-section, .ai-section {
     margin: 24px 0;
 }
 
-.accessibility-section h4 {
+.accessibility-section h4, .ai-section h4 {
     color: var(--color-text-primary);
     margin-bottom: 16px;
     font-family: var(--font-secondary);
 }
 
-.accessibility-options {
+.accessibility-options, .ai-options {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.accessibility-option {
+.lm-studio-settings {
+    margin-top: 12px;
+    padding-left: 24px;
+    display: none;
+}
+
+.lm-studio-settings .input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.lm-studio-settings .input-field label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-xxs);
+}
+
+.lm-studio-settings .input-field input {
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xs);
+    width: 100%;
+    max-width: 320px;
+}
+
+.settings-description {
+    font-size: var(--font-size-xxs);
+    margin-top: 8px;
+}
+
+.accessibility-option, .ai-option {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.accessibility-switch {
+.accessibility-switch, .ai-switch {
     position: relative;
     display: inline-block;
     width: 46px;
     height: 24px;
 }
 
-.accessibility-switch input {
+.accessibility-switch input, .ai-switch input {
     opacity: 0;
     width: 0;
     height: 0;
+}
+
+/* Personality options */
+.personality-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.personality-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.personality-option:hover {
+    background-color: var(--color-hover);
+}
+
+.personality-option.active {
+    background-color: var(--color-selected);
+}
+
+.personality-color, .personality-image {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-round);
+    border: 2px solid var(--color-divider);
+}
+
+.personality-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.personality-image.mikurot {
+    background-image: url('assets/miku.jpg');
+    background-color: #39c5bb; /* Miku's signature teal color */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.personality-color {
+    transition: transform 0.2s ease;
+}
+
+/* Special effects for Mikurot when active */
+.personality-option.active .personality-image.mikurot {
+    box-shadow: 0 0 10px 2px #39c5bb;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(57, 197, 187, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(57, 197, 187, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(57, 197, 187, 0); }
+}
+
+.personality-option:hover .personality-color,
+.personality-option:hover .personality-image {
+    transform: scale(1.1);
+}
+
+.personality-option.active .personality-color {
+    border-color: var(--color-accent-orange);
+    transform: scale(1.1);
+}
+
+.personality-name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-primary);
+}
+
+/* Personality color styles */
+.personality-color.none {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+}
+
+.personality-color.red {
+    background: linear-gradient(135deg, #ff5252 0%, #b71c1c 100%);
+}
+
+.personality-color.orange {
+    background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+}
+
+.personality-color.yellow {
+    background: linear-gradient(135deg, #ffeb3b 0%, #fbc02d 100%);
+}
+
+.personality-color.green {
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+}
+
+.personality-color.blue {
+    background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+
+.personality-color.velvet {
+    background: linear-gradient(135deg, #9c27b0 0%, #4a148c 100%);
+}
+
+.personality-color.pink {
+    background: linear-gradient(135deg, #e91e63 0%, #880e4f 100%);
+}
+
+.personality-color.black {
+    background: linear-gradient(135deg, #424242 0%, #212121 100%);
 }
 
 .accessibility-slider {
@@ -1725,4 +1873,26 @@ input:checked + .settings-slider:before {
 /* Hide sound selector when startup sound is disabled */
 #startupSound:not(:checked) ~ #startupSoundSelector {
     display: none;
+}
+
+/* Personality notification */
+.personality-notification {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    background-color: var(--color-accent-orange);
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: var(--font-size-sm);
+    z-index: 1000;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.personality-notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
