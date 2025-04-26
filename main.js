@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // We no longer clear chat memory on page refresh/reload
+    // This allows conversations to persist between sessions
+    
     const sidebar = document.getElementById('sidebar');
     const collapseButton = document.getElementById('collapseSidebarButton');
     const body = document.body;
@@ -151,7 +154,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Function to send message to LM Studio API
+    // Function to manage chat memory for LM Studio
+    function getChatMemory(chatId) {
+        const chatMemories = JSON.parse(localStorage.getItem('lmStudioChatMemories') || '{}');
+        return chatMemories[chatId] || [];
+    }
+    
+    function saveChatMemory(chatId, messages) {
+        const chatMemories = JSON.parse(localStorage.getItem('lmStudioChatMemories') || '{}');
+        chatMemories[chatId] = messages;
+        localStorage.setItem('lmStudioChatMemories', JSON.stringify(chatMemories));
+    }
+    
+    // Function to send message to LM Studio API with memory
     async function sendMessageToLMStudio(message) {
         const isLMStudioEnabled = localStorage.getItem('lmStudioEnabled') === 'true';
         if (!isLMStudioEnabled) return null;
@@ -170,6 +185,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         try {
+            // Get chat memory for current chat
+            const chatId = currentChat || 'default';
+            const chatMemory = getChatMemory(chatId);
+            
+            // Prepare messages array with system prompt and chat history
             const messages = [];
             
             // Add system prompt if a personality is selected
@@ -177,7 +197,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 messages.push({ role: 'system', content: systemPrompt });
             }
             
-            // Add user message
+            // Add previous messages from memory (limited to last 10 messages to avoid context length issues)
+            const recentMessages = chatMemory.slice(-10);
+            messages.push(...recentMessages);
+            
+            // Add current user message
             messages.push({ role: 'user', content: message });
             
             const response = await fetch(`${endpoint}/v1/chat/completions`, {
@@ -197,7 +221,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             const data = await response.json();
-            return data.choices[0].message.content;
+            const aiResponse = data.choices[0].message.content;
+            
+            // Update chat memory with the new messages
+            chatMemory.push({ role: 'user', content: message });
+            chatMemory.push({ role: 'assistant', content: aiResponse });
+            saveChatMemory(chatId, chatMemory);
+            
+            return aiResponse;
         } catch (error) {
             console.error('Error calling LM Studio API:', error);
             return null;
@@ -618,9 +649,55 @@ document.addEventListener('DOMContentLoaded', function() {
     const chatInput = document.querySelector('.chat-input');
     const sendButton = document.querySelector('.send-button');
     const styleSelector = document.querySelector('.style-selector');
+    const newChatButton = document.querySelector('.new-chat-button');
     let chatInitialized = false;
     let chatMessages; // newly created chat messages container
     let currentChat = null; // Track the currently selected chat
+    
+    // New Chat button click handler - resets current conversation without creating a new chat
+    newChatButton.addEventListener('click', () => {
+        if (!currentChat) {
+            // If no chat is selected, use the first one
+            const firstChatItem = document.querySelector('.chat-item');
+            if (firstChatItem) {
+                currentChat = firstChatItem.querySelector('.chat-title').textContent;
+                // Highlight the first chat item
+                firstChatItem.classList.add('active');
+            } else {
+                return; // No chats available
+            }
+        }
+        
+        // Clear memory for the current chat
+        saveChatMemory(currentChat, []);
+        
+        if (!chatInitialized) {
+            initChatUI();
+        } else {
+            // Clear existing messages
+            chatMessages.innerHTML = '';
+        }
+        
+        // Show a subtle notification
+        const notification = document.createElement('div');
+        notification.classList.add('personality-notification');
+        notification.textContent = `Conversation reset`;
+        document.body.appendChild(notification);
+        
+        // Remove notification after animation
+        setTimeout(() => {
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 2000);
+        }, 10);
+        
+        // Update chat input placeholder
+        chatInput.placeholder = 'Type your message here...';
+    });
     
     // Update style selector to show current bubble style
     function updateStyleSelector() {
@@ -701,6 +778,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     addMessage(message.text, message.isUser, index);
                 }, index * 60); // 60ms delay between each message (reduced from 120ms)
             });
+            
+            // Initialize chat memory for LM Studio if it doesn't exist
+            const chatMemory = getChatMemory(chatTitle);
+            if (chatMemory.length === 0) {
+                // Convert sample chat data to LM Studio message format
+                const messages = chatData[chatTitle].map(msg => ({
+                    role: msg.isUser ? 'user' : 'assistant',
+                    content: msg.text
+                }));
+                saveChatMemory(chatTitle, messages);
+            }
+        } else {
+            // If it's a new chat, initialize empty memory
+            saveChatMemory(chatTitle, []);
         }
     }
     
@@ -786,6 +877,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (isLMStudioEnabled) {
             try {
+                // If this is a new chat that hasn't been initialized with memory yet
+                if (!getChatMemory(currentChat).length) {
+                    saveChatMemory(currentChat, []);
+                }
+                
                 response = await sendMessageToLMStudio(text);
                 if (!response) {
                     throw new Error('No response from LM Studio');
