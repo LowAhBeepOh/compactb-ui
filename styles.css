@@ -1896,3 +1896,35 @@ input:checked + .settings-slider:before {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
 }
+
+/* Protocol warning for LM Studio */
+.protocol-warning {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    background-color: var(--color-warning-bg, #fff3cd);
+    color: var(--color-warning-text, #856404);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    border-left: 4px solid var(--color-warning-border, #ffeeba);
+    animation: pulse 2s infinite;
+}
+
+.protocol-warning .material-icons {
+    font-size: 20px;
+    color: var(--color-warning-icon, #e6a210);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(255, 193, 7, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+    }
+}

@@ -24,6 +24,32 @@ document.addEventListener('DOMContentLoaded', function() {
     lmStudioSettings.style.display = integrateWithLMStudio.checked ? 'block' : 'none';
     lmStudioEndpoint.value = localStorage.getItem('lmStudioEndpoint') || 'http://127.0.0.1:1234';
     
+    // Add protocol warning if needed
+    if (window.location.protocol === 'https:') {
+        const protocolWarning = document.createElement('div');
+        protocolWarning.classList.add('protocol-warning');
+        protocolWarning.innerHTML = `
+            <span class="material-icons">warning</span>
+            <span>You're using HTTPS. For LM Studio to work properly, use a protocol-relative URL (//127.0.0.1:1234) or access this page via HTTP.</span>
+        `;
+        lmStudioSettings.appendChild(protocolWarning);
+        
+        // Update endpoint to protocol-relative if it's using HTTP
+        if (lmStudioEndpoint.value.startsWith('http:')) {
+            try {
+                const endpointUrl = new URL(lmStudioEndpoint.value);
+                const hostname = endpointUrl.hostname;
+                const port = endpointUrl.port;
+                if (hostname === '127.0.0.1' || hostname === 'localhost') {
+                    lmStudioEndpoint.value = `//${hostname}:${port}`;
+                    localStorage.setItem('lmStudioEndpoint', lmStudioEndpoint.value);
+                }
+            } catch (error) {
+                console.error('Error parsing LM Studio endpoint:', error);
+            }
+        }
+    }
+    
     // Personality elements
     const personalityOptions = document.querySelectorAll('.personality-option');
     
@@ -175,17 +201,18 @@ document.addEventListener('DOMContentLoaded', function() {
         let endpoint = localStorage.getItem('lmStudioEndpoint') || 'http://127.0.0.1:1234';
         
         // Handle the case when the page is served over HTTPS but LM Studio uses HTTP
-        if (window.location.protocol === 'https:' && endpoint.startsWith('http:')) {
+        if (window.location.protocol === 'https:') {
             // Extract the hostname and port from the endpoint
             try {
                 const endpointUrl = new URL(endpoint);
                 const hostname = endpointUrl.hostname;
                 const port = endpointUrl.port;
                 
-                // If it's a local address, we can try to use a relative URL
+                // If it's a local address, always use protocol-relative URL
                 if (hostname === '127.0.0.1' || hostname === 'localhost') {
-                    // Use a relative URL that will inherit the protocol from the current page
+                    // Use a protocol-relative URL that will inherit the protocol from the current page
                     endpoint = `//${hostname}:${port}`;
+                    console.log('Using protocol-relative URL:', endpoint);
                 }
             } catch (error) {
                 console.error('Error parsing LM Studio endpoint:', error);
@@ -228,34 +255,44 @@ document.addEventListener('DOMContentLoaded', function() {
             const apiUrl = `${endpoint}/v1/chat/completions`;
             console.log('Sending request to:', apiUrl);
             
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: 'local-model', // This will be the model identifier from LM Studio
-                    messages: messages,
-                    temperature: personality === 'mikurot' && containsMikuSongReference(message) ? 0.9 : 0.7 // Higher temperature for excited responses
-                })
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'local-model', // This will be the model identifier from LM Studio
+                        messages: messages,
+                        temperature: personality === 'mikurot' && containsMikuSongReference(message) ? 0.9 : 0.7 // Higher temperature for excited responses
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const aiResponse = data.choices[0].message.content;
+                
+                // Update chat memory with the new messages
+                chatMemory.push({ role: 'user', content: message });
+                chatMemory.push({ role: 'assistant', content: aiResponse });
+                saveChatMemory(chatId, chatMemory);
+                
+                return aiResponse;
+            } catch (fetchError) {
+                // Check if this is a mixed content error
+                if (window.location.protocol === 'https:' && endpoint.includes('http:')) {
+                    console.error('Mixed content error detected:', fetchError);
+                    throw new Error('Mixed content error: Cannot access HTTP endpoint from HTTPS page. Please use a secure endpoint or access this page via HTTP.');
+                }
+                throw fetchError; // Re-throw for the outer catch block
             }
-            
-            const data = await response.json();
-            const aiResponse = data.choices[0].message.content;
-            
-            // Update chat memory with the new messages
-            chatMemory.push({ role: 'user', content: message });
-            chatMemory.push({ role: 'assistant', content: aiResponse });
-            saveChatMemory(chatId, chatMemory);
-            
-            return aiResponse;
         } catch (error) {
             console.error('Error calling LM Studio API:', error);
-            return null;
+            // Return the error message instead of null for better user feedback
+            return `Error connecting to LM Studio: ${error.message}. Please check that LM Studio is running and your connection settings are correct.`;
         }
     }
     
@@ -907,8 +944,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 response = await sendMessageToLMStudio(text);
-                if (!response) {
-                    throw new Error('No response from LM Studio');
+                // If the response starts with "Error connecting to LM Studio", it's an error message
+                if (response && response.startsWith('Error connecting to LM Studio:')) {
+                    // Just use the error message as the response
+                    console.error(response);
                 }
             } catch (error) {
                 console.error('Error with LM Studio:', error);
