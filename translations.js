@@ -352,6 +352,11 @@ const translations = {
         startupSoundTaiko: "太鼓",
         startupSoundGame: "Phonk经典铃声",
         startupSoundFunk: "放克吉他",
-        startupSoundCall: "电影配乐"
+        startupSoundCall: "电影配乐",
+        ai: "AI",
+        integrateWithLMStudio: "与LM Studio集成",
+        lmStudioEndpoint: "LM Studio API端点",
+        lmStudioEndpointPlaceholder: "http://127.0.0.1:1234",
+        lmStudioIntegrationDescription: "连接到本地LM Studio实例以处理AI响应"
     }
 };

@@ -171,7 +171,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const isLMStudioEnabled = localStorage.getItem('lmStudioEnabled') === 'true';
         if (!isLMStudioEnabled) return null;
         
-        const endpoint = localStorage.getItem('lmStudioEndpoint') || 'http://127.0.0.1:1234';
+        // Get the endpoint from localStorage
+        let endpoint = localStorage.getItem('lmStudioEndpoint') || 'http://127.0.0.1:1234';
+        
+        // Handle the case when the page is served over HTTPS but LM Studio uses HTTP
+        if (window.location.protocol === 'https:' && endpoint.startsWith('http:')) {
+            // Extract the hostname and port from the endpoint
+            try {
+                const endpointUrl = new URL(endpoint);
+                const hostname = endpointUrl.hostname;
+                const port = endpointUrl.port;
+                
+                // If it's a local address, we can try to use a relative URL
+                if (hostname === '127.0.0.1' || hostname === 'localhost') {
+                    // Use a relative URL that will inherit the protocol from the current page
+                    endpoint = `//${hostname}:${port}`;
+                }
+            } catch (error) {
+                console.error('Error parsing LM Studio endpoint:', error);
+            }
+        }
+        
         const personality = localStorage.getItem('aiPersonality') || 'none';
         let systemPrompt = personalityPrompts[personality] || '';
         
@@ -204,7 +224,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add current user message
             messages.push({ role: 'user', content: message });
             
-            const response = await fetch(`${endpoint}/v1/chat/completions`, {
+            // Construct the full URL for the API request
+            const apiUrl = `${endpoint}/v1/chat/completions`;
+            console.log('Sending request to:', apiUrl);
+            
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
