@@ -58,16 +58,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Personality system prompts
     const personalityPrompts = {
-        none: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers.",
-        red: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is hating politics, a bit calm, but also a bit rude.",
-        orange: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is literally just acting like a jolly ginger from Ireland. (take it lightly im not trying to be rude)",
-        yellow: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being a bit energetic in your responses, and being nice.",
-        green: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being calm, a bit unformal in some cases, and genuinely being nice and supportive.)",
-        blue: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being kinda tired, your formal and unformal tone changes randomly, and your responses are short and dry.",
-        velvet: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being writing like a person who had their emo phase two months ago, but also responding to the user in the worst possible way.",
-        pink: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being very friendly, silly, and write using emotions and writing in a VERY informal way, like something like 'OMG HAIIII >_<'.",
-        black: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is... well, something. act like you are a person who is tired all the time, and is going through a lot of negative stuff, be a tiny bit rude sometimes.",
-        mikurot: "Only write in plain text, trying to bold, italic, underline, or anything else won't work. Use short to medium answers. Your personality is being a Hatsune Miku fan who responds normally to most messages, but gets extremely excited when any Miku song is mentioned.",
+        none: "You can use Markdown formatting (like **bold**, *italics*, `code`, lists, etc.). Use short to medium answers.",
+        red: "You can use Markdown formatting. Use short to medium answers. Your personality is hating politics, a bit calm, but also a bit rude.",
+        orange: "You can use Markdown formatting. Use short to medium answers. Your personality is literally just acting like a jolly ginger from Ireland. (take it lightly im not trying to be rude)",
+        yellow: "You can use Markdown formatting. Use short to medium answers. Your personality is being a bit energetic in your responses, and being nice.",
+        green: "You can use Markdown formatting. Use short to medium answers. Your personality is being calm, a bit unformal in some cases, and genuinely being nice and supportive.",
+        blue: "You can use Markdown formatting. Use short to medium answers. Your personality is being kinda tired, your formal and unformal tone changes randomly, and your responses are short and dry.",
+        velvet: "You can use Markdown formatting. Use short to medium answers. Your personality is being writing like a person who had their emo phase two months ago, but also responding to the user in the worst possible way.",
+        pink: "You can use Markdown formatting. Use short to medium answers. Your personality is being very friendly, silly, and write using emotions and writing in a VERY informal way, like something like 'OMG HAIIII >_<'.",
+        black: "You can use Markdown formatting. Use short to medium answers. Your personality is... well, something. act like you are a person who is tired all the time, and is going through a lot of negative stuff, be a tiny bit rude sometimes.",
+        mikurot: "You can use Markdown formatting. Use short to medium answers. Your personality is being a Hatsune Miku fan who responds normally to most messages, but gets extremely excited when any Miku song is mentioned.",
     };
     
     // List of Miku songs to detect
@@ -869,6 +869,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calculate reading time if enabled
         if (showReadingTime.checked) {
             const wordsPerMinute = 200;
+            // Use the raw text for word count before Markdown parsing
             const wordCount = text.trim().split(/\s+/).length;
             const readingTimeSeconds = Math.ceil((wordCount / wordsPerMinute) * 60);
             let readingTimeText = '';
@@ -884,10 +885,21 @@ document.addEventListener('DOMContentLoaded', function() {
             message.setAttribute('data-reading-time', readingTimeText);
         }
         
-        // Add message text
+        // Add message text - Render Markdown for AI messages
         const messageText = document.createElement('div');
         messageText.classList.add('message-text');
-        messageText.textContent = text;
+        if (isUser) {
+            messageText.textContent = text; // User messages as plain text
+        } else {
+            // Assuming 'marked.parse()' is available globally
+            // If not, you'll need to include a Markdown library like marked.js
+            try {
+                messageText.innerHTML = marked.parse(text); // AI messages rendered as Markdown
+            } catch (e) {
+                console.error("Markdown parsing error. Is marked.js included?", e);
+                messageText.textContent = text; // Fallback to plain text
+            }
+        }
         message.appendChild(messageText);
         
         // Add timestamp
