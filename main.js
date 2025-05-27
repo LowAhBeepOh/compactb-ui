@@ -70,6 +70,28 @@ document.addEventListener('DOMContentLoaded', function() {
         mikurot: "You can use Markdown formatting. Use short to medium answers. Your personality is being a Hatsune Miku fan who responds normally to most messages, but gets extremely excited when any Miku song is mentioned.",
     };
     
+    // Function to check if drunk mode is active
+    function isDrunkMode() {
+        const now = new Date();
+        const hour = now.getHours();
+        const day = now.getDay();
+        const month = now.getMonth();
+        const isDrunkMonth = [7, 9, 10].includes(month); // August, October, November
+        const isFridayNight = day === 5 && hour >= 20;
+        return isDrunkMonth && isFridayNight;
+    }
+    
+    // Modify personality based on drunk mode
+    function getPersonalityPrompt(personality) {
+        let prompt = personalityPrompts[personality] || personalityPrompts.none;
+        if (window.isDrunkMode) {
+            prompt += " Also, act drunk by writing words wrong, forgetting stuff, and whatever.";
+        } else if (isDrunkMode()) {
+            prompt += " Also, act a tiny bit drunk by writing some words wrong.";
+        }
+        return prompt;
+    }
+    
     // List of Miku songs to detect
     const mikuSongs = [
         'telepathy', 'vampire', 'magical mirai', 'magical cure love shot', 'world is mine', 
@@ -1102,4 +1124,184 @@ document.addEventListener('DOMContentLoaded', function() {
         playSound('startup');
         startupSound.checked = wasEnabled;
     });
+    
+    // Interaction tracking
+    let interactionCount = parseInt(localStorage.getItem('dailyInteractions') || '0');
+    let lastInteractionTime = parseInt(localStorage.getItem('lastInteractionTime') || '0');
+    let morningSessionStarted = localStorage.getItem('morningSessionStarted') === 'true';
+    let recentInteractions = JSON.parse(localStorage.getItem('recentInteractions') || '[]');
+    
+    // Reset daily interactions at midnight
+    const now = new Date();
+    const lastDate = new Date(parseInt(localStorage.getItem('lastInteractionDate') || Date.now()));
+    if (now.getDate() !== lastDate.getDate()) {
+        interactionCount = 0;
+        morningSessionStarted = false;
+        localStorage.setItem('dailyInteractions', '0');
+        localStorage.setItem('morningSessionStarted', 'false');
+    }
+    
+    // Track interactions
+    function trackInteraction() {
+        const currentTime = Date.now();
+        recentInteractions.push(currentTime);
+        recentInteractions = recentInteractions.filter(time => currentTime - time < 3600000); // Keep last hour
+        interactionCount++;
+        
+        localStorage.setItem('dailyInteractions', interactionCount.toString());
+        localStorage.setItem('lastInteractionTime', currentTime.toString());
+        localStorage.setItem('lastInteractionDate', currentTime.toString());
+        localStorage.setItem('recentInteractions', JSON.stringify(recentInteractions));
+    }
+    
+    // Greeting system
+    const greetingSystem = {
+        1: "Good Morning, Loa",
+        2: "Good Afternoon, Loa",
+        3: "Good Evening, Loa",
+        4: "Good Night, Loa",
+        5: "Why aren't you sleeping yet?",
+        6: "What now?",
+        7: "Hm?",
+        8: "Good Weekend, Loa",
+        9: "Bad Day, Loa",
+        10: "i drank too much",
+        11: "drunk",
+        12: "i'm compactting it",
+        13: "touch grass",
+        14: "Back again with this idiot... yeah?",
+        15: "a matter of time"
+    };
+
+    // Session override for greeting
+    let sessionGreetingOverride = null;
+
+    // Make greeting system available globally
+    window.greeting = {
+        set: function(greetingId) {
+            if (!greetingSystem[greetingId]) return;
+            sessionGreetingOverride = greetingId;
+            const welcomeHeading = document.querySelector('.welcome-heading');
+            if (!welcomeHeading) return;
+            
+            if (greetingId === 15) {
+                welcomeHeading.innerHTML = '<a href="https://open.spotify.com/prerelease/3UWFwDMzIfiXRQjEou1GYy" target="_blank">a matter of time</a>';
+            } else {
+                welcomeHeading.textContent = greetingSystem[greetingId];
+            }
+            
+            // Set drunk mode if applicable
+            window.isDrunkMode = (greetingId === 10 || greetingId === 11);
+        },
+        reset: function() {
+            sessionGreetingOverride = null;
+            const welcomeHeading = document.querySelector('.welcome-heading');
+            if (welcomeHeading) {
+                welcomeHeading.textContent = getDynamicGreeting();
+            }
+        },
+        list: function() {
+            console.table(Object.entries(greetingSystem).map(([id, text]) => ({
+                ID: id,
+                Greeting: text
+            })));
+        }
+    };
+
+    // Function to get dynamic greeting
+    function getDynamicGreeting() {
+        // Check for session override first
+        if (sessionGreetingOverride !== null) {
+            if (sessionGreetingOverride === 15) {
+                return '<a href="https://open.spotify.com/prerelease/3UWFwDMzIfiXRQjEou1GYy" target="_blank">a matter of time</a>';
+            }
+            return greetingSystem[sessionGreetingOverride];
+        }
+
+        const hour = now.getHours();
+        const day = now.getDay();
+        const date = now.getDate();
+        const month = now.getMonth();
+        const year = now.getFullYear();
+        const minutes = now.getMinutes();
+        
+        // Check if it's August 22, 2025
+        if (year === 2025 && month === 7 && date === 22) {
+            const greetingElem = document.querySelector('.welcome-heading');
+            if (greetingElem) {
+                greetingElem.innerHTML = '<a href="https://open.spotify.com/prerelease/3UWFwDMzIfiXRQjEou1GYy" target="_blank">a matter of time</a>';
+                return;
+            }
+        }
+        
+        // Check if it's exactly 18:21 (except Mondays)
+        if (minutes === 21 && hour === 18 && day !== 1) {
+            return "i'm compactting it";
+        }
+        
+        // Check if it's Friday the 13th
+        if (day === 5 && date === 13) {
+            return "Bad Day, Loa";
+        }
+        
+        // Check for drunk conditions (Friday nights in specific months)
+        const isDrunkMonth = [7, 9, 10].includes(month); // August, October, November
+        const isFridayNight = day === 5 && hour >= 20;
+        if (isDrunkMonth && isFridayNight) {
+            if (recentInteractions.length >= 3) {
+                window.isDrunkMode = true;
+                return "drunk";
+            }
+            window.isDrunkMode = true;
+            return "i drank too much";
+        }
+        
+        // Check for touch grass condition (summer months)
+        const isSummer = [5, 6, 7].includes(month); // June, July, August
+        if (isSummer) {
+            const hasMany = recentInteractions.filter(time => Date.now() - time < 7200000).length >= 10;
+            if (hasMany || (Math.random() < 0.025)) {
+                return "touch grass";
+            }
+        }
+        
+        // Check for frequent interactions
+        if (interactionCount >= 15) {
+            return "Back again with this idiot... yeah?";
+        }
+        
+        // Time of day based greetings
+        if (recentInteractions.length >= 3 && hour >= 0 && hour < 5) {
+            return "Why aren't you sleeping yet?";
+        }
+        
+        if (recentInteractions.length >= 3 && hour >= 12 && hour < 18) {
+            return "What now?";
+        }
+        
+        if (!morningSessionStarted && hour >= 5 && hour < 12) {
+            localStorage.setItem('morningSessionStarted', 'true');
+            return "Hm?";
+        }
+        
+        // Weekend greeting
+        if (day === 0 || day === 6) {
+            return "Good Weekend, Loa";
+        }
+        
+        // Standard time-based greetings
+        if (hour >= 5 && hour < 12) return "Good Morning, Loa";
+        if (hour >= 12 && hour < 17) return "Good Afternoon, Loa";
+        if (hour >= 17 && hour < 22) return "Good Evening, Loa";
+        return "Good Night, Loa";
+    }
+    
+    // Update the greeting on page load
+    const welcomeHeading = document.querySelector('.welcome-heading');
+    if (welcomeHeading) {
+        welcomeHeading.textContent = getDynamicGreeting();
+    }
+    
+    // Track this interaction
+    trackInteraction();
 });
